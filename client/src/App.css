@@ -1,3 +1,4 @@
+/* Change color scheme from here */
 :root {
   --primary-color: #005fff;
   --primary-color-alpha: #005fff1a;
@@ -155,6 +156,8 @@ body {
   font-weight: 700;
 }
 
+/* Responsiveness */
+/* For medium devices */
 @media screen and (max-width: 800px) {
   .auth__form-container {
     flex-direction: column-reverse;
@@ -175,6 +178,7 @@ body {
   }
 }
 
+/* For smaller devices */
 @media screen and (max-width: 375px) {
   .auth__form-container_fields {
     padding: 2rem 0.5rem;
@@ -880,6 +884,7 @@ body {
   scrollbar-width: none;
 }
 
+/* Responsiveness */
 @media screen and (min-width: 1070px) {
   .team-channel-header__name-wrapper {
     max-width: 700px;
@@ -1736,6 +1741,7 @@ div.rta__autocomplete.str-chat__emojisearch {
   padding: 10px;
 }
 
+/* Responsiveness */
 @media screen and (max-width: 960px) {
   .channel-list__container {
     display: none;

@@ -4,8 +4,10 @@ import { useChatContext } from "stream-chat-react";
 import { UserList } from "./";
 import { CloseCreateChannel } from "../assets";
 
+// Channel Name Input
 const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   const handleChange = (e) => {
+    // Prevent reloading of page after button click
     e.preventDefault();
 
     setChannelName(e.target.value);
@@ -24,6 +26,7 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   );
 };
 
+// Edit Channel
 const EditChannel = ({ setIsEditing }) => {
   const { channel } = useChatContext();
   const [channelName, setChannelName] = useState(channel?.data?.name);
@@ -35,12 +38,14 @@ const EditChannel = ({ setIsEditing }) => {
     const nameChanged =
       channelName !== (channel?.data?.name || channel?.data?.id);
 
+    // check if name is changed
     if (nameChanged) {
       await channel.update(
         { name: channelName },
         { text: `Channel name changed to ${channelName}` }
       );
 
+      // check if new members are selected/invited
       if (selectedUsers.length) {
         await channel.addMembers(selectedUsers);
       }
@@ -51,6 +56,7 @@ const EditChannel = ({ setIsEditing }) => {
     }
   };
 
+  // Render edit channel
   return (
     <div className="edit-channel__container">
       <div className="edit-channel__header">

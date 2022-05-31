@@ -4,6 +4,7 @@ import { useChatContext } from "stream-chat-react";
 import ResultsDropdown from "./ResultsDropdown";
 import { SearchIcon } from "../assets";
 
+// Channel Search
 const ChannelSearch = ({ setToggleContainer }) => {
   const { client, setActiveChannel } = useChatContext();
   const [query, setQuery] = useState("");
@@ -11,6 +12,7 @@ const ChannelSearch = ({ setToggleContainer }) => {
   const [teamChannels, setTeamChannels] = useState([]);
   const [directChannels, setDirectChannels] = useState([]);
 
+  // search whenever query is changed
   useEffect(() => {
     if (!query) {
       setTeamChannels([]);
@@ -18,6 +20,7 @@ const ChannelSearch = ({ setToggleContainer }) => {
     }
   }, [query]);
 
+  // Get Channels
   const getChannels = async (text) => {
     try {
       const channelResponse = client.queryChannels({
@@ -44,6 +47,7 @@ const ChannelSearch = ({ setToggleContainer }) => {
     }
   };
 
+  // On Search event
   const onSearch = (e) => {
     e.preventDefault();
 
@@ -59,6 +63,7 @@ const ChannelSearch = ({ setToggleContainer }) => {
 
   return (
     <div className="channel-search__container">
+      {/* Search Field */}
       <div className="channel-search__input__wrapper">
         <div className="channel-search__input__icon">
           <SearchIcon />
@@ -72,6 +77,7 @@ const ChannelSearch = ({ setToggleContainer }) => {
         />
       </div>
 
+      {/* Search Results */}
       {query && (
         <ResultsDropdown
           teamChannels={teamChannels}

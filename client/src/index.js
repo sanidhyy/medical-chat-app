@@ -3,4 +3,5 @@ import { createRoot } from "react-dom/client";
 
 import App from "./App";
 
+// Rendering App
 createRoot(document.getElementById("root")).render(<App />);

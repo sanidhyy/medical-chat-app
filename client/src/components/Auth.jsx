@@ -4,6 +4,7 @@ import axios from "axios";
 
 import signInImage from "../assets/signup.jpg";
 
+// create cookies instance
 const cookies = new Cookies();
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   avatarURL: "",
 };
 
+// Both Authentication forms logic
 const Auth = () => {
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
@@ -27,6 +29,7 @@ const Auth = () => {
 
     const { username, password, phoneNumber, avatarURL } = form;
 
+    // change server address in production
     const URL = "http://localhost:5000/auth";
 
     const {
@@ -50,6 +53,7 @@ const Auth = () => {
       cookies.set("hashedPassword", hashedPassword);
     }
 
+    // Reload page after authentication
     window.location.reload();
   };
 
@@ -63,6 +67,7 @@ const Auth = () => {
         <div className="auth__form-container_fields-content">
           <p>{isSignup ? "Sign Up" : "Sign In"}</p>
           <form onSubmit={handleSubmit} autoCapitalize="off" autoComplete="off">
+            {/* Full Name */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="fullName">Full Name</label>
@@ -76,6 +81,8 @@ const Auth = () => {
                 />
               </div>
             )}
+
+            {/* Username */}
             <div className="auth__form-container_fields-content_input">
               <label htmlFor="username">Username</label>
               <input
@@ -87,6 +94,8 @@ const Auth = () => {
                 required
               />
             </div>
+
+            {/* Phone No */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="phoneNumber">Phone No</label>
@@ -100,6 +109,8 @@ const Auth = () => {
                 />
               </div>
             )}
+
+            {/* Avatar URL */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="avatarURL">Avatar URL</label>
@@ -113,6 +124,8 @@ const Auth = () => {
                 />
               </div>
             )}
+
+            {/* Password */}
             <div className="auth__form-container_fields-content_input">
               <label htmlFor="password">Password</label>
               <input
@@ -124,6 +137,8 @@ const Auth = () => {
                 required
               />
             </div>
+
+            {/* Confirm Password */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="confirmPassword">Confirm Password</label>
@@ -137,6 +152,8 @@ const Auth = () => {
                 />
               </div>
             )}
+
+            {/* Signin/Signup button */}
             <div className="auth__form-container_fields-content_button">
               <button>{isSignup ? "Sign Up" : "Sign In"}</button>
             </div>

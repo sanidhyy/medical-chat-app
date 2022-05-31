@@ -3,6 +3,7 @@ import { Channel, useChatContext, MessageTeam } from "stream-chat-react";
 
 import { ChannelInner, CreateChannel, EditChannel } from "./";
 
+// Channel Container
 const ChannelContainer = ({
   isCreating,
   setIsCreating,
@@ -15,6 +16,7 @@ const ChannelContainer = ({
   if (isCreating) {
     return (
       <div className="channel__container">
+        {/* Create Channel */}
         <CreateChannel createType={createType} setIsCreating={setIsCreating} />
       </div>
     );
@@ -23,11 +25,13 @@ const ChannelContainer = ({
   if (isEditing) {
     return (
       <div className="channel__container">
+        {/* Edit Channel */}
         <EditChannel setIsEditing={setIsEditing} />
       </div>
     );
   }
 
+  // If Chat is empty
   const EmptyState = () => (
     <div className="channel-empty__container">
       <p className="channel-empty__first">
@@ -39,6 +43,7 @@ const ChannelContainer = ({
     </div>
   );
 
+  // Show all messages
   return (
     <div className="channel__container">
       <Channel

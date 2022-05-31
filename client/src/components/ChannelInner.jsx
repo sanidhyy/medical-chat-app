@@ -14,10 +14,12 @@ import { ChannelInfo } from "../assets";
 
 export const GiphyContext = React.createContext({});
 
+// Channel Inner
 const ChannelInner = ({ setIsEditing }) => {
   const [giphyState, setGiphyState] = useState(false);
   const { sendMessage } = useChannelActionContext();
 
+  // Handle chat submit
   const overrideSubmitHandler = (message) => {
     let updatedMessage = {
       attachments: message.attachments,
@@ -27,16 +29,19 @@ const ChannelInner = ({ setIsEditing }) => {
       text: message.text,
     };
 
+    // check for gifs in chat
     if (giphyState) {
       updatedMessage = { ...updatedMessage, text: `/giphy ${message.text}` };
     }
 
+    // when message is sent
     if (sendMessage) {
       sendMessage(updatedMessage);
       setGiphyState(false);
     }
   };
 
+  // Render Giphy
   return (
     <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
       <div style={{ display: "flex", width: "100%" }}>
@@ -51,6 +56,7 @@ const ChannelInner = ({ setIsEditing }) => {
   );
 };
 
+// Team Channel Header
 const TeamChannelHeader = ({ setIsEditing }) => {
   const { channel, watcher_count } = useChannelStateContext();
   const { client } = useChatContext();
@@ -61,6 +67,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     );
     const additionalMembers = members.length - 3;
 
+    // show users if channel type is messaging
     if (channel.type === "messaging") {
       return (
         <div className="team-channel-header__name-wrapper">
@@ -86,6 +93,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
       );
     }
 
+    // show channels
     return (
       <div className="team-channel-header__channel-wrapper">
         <p className="team-channel-header__name"># {channel.data.name}</p>
@@ -96,12 +104,14 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     );
   };
 
+  // show if users are online
   const getWatcherText = (watchers) => {
     if (!watchers) return "No users online";
     if (watchers === 1) return "1 user online";
     return `${watchers} users online`;
   };
 
+  // return watchers count
   return (
     <div className="team-channel-header__container">
       <MessagingHeader />
