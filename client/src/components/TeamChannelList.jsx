@@ -2,6 +2,7 @@ import React from "react";
 
 import { AddChannel } from "../assets";
 
+// Theme Channel List
 const ThemeChannelList = ({
   children,
   error = false,
@@ -13,6 +14,7 @@ const ThemeChannelList = ({
   setIsEditing,
   setToggleContainer,
 }) => {
+  // Error handling
   if (error) {
     return type === "team" ? (
       <div className="team-channel-list">
@@ -23,6 +25,7 @@ const ThemeChannelList = ({
     ) : null;
   }
 
+  // Loading handling
   if (loading) {
     return (
       <div className="team-channel-list">
@@ -33,6 +36,7 @@ const ThemeChannelList = ({
     );
   }
 
+  // Render Channel list
   return (
     <div className="team-channel-list">
       <div className="team-channel-list__header">

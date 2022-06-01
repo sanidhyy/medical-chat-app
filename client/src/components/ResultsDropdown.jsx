@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, useChatContext } from "stream-chat-react";
 
+// Channels created by user
 const channelByUser = async ({
   client,
   setActiveChannel,
@@ -26,6 +27,7 @@ const channelByUser = async ({
   return setActiveChannel(newChannel);
 };
 
+// Search result
 const SearchResult = ({
   channel,
   focusedId,
@@ -35,6 +37,7 @@ const SearchResult = ({
 }) => {
   const { client, setActiveChannel } = useChatContext();
 
+  // check search query type
   if (type === "channel") {
     return (
       <div
@@ -56,6 +59,7 @@ const SearchResult = ({
     );
   }
 
+  // Render results
   return (
     <div
       onClick={async () => {
@@ -82,6 +86,7 @@ const SearchResult = ({
   );
 };
 
+// Results Dropdown
 const ResultsDropdown = ({
   teamChannels,
   directChannels,
@@ -93,11 +98,14 @@ const ResultsDropdown = ({
   return (
     <div className="channel-search__results">
       <p className="channel-search__results-header">Channels</p>
+      {/* When Searching */}
       {loading && !teamChannels.length && (
         <p className="channel-search__results-header">
           <i>Loading...</i>
         </p>
       )}
+
+      {/* When no channels are found */}
       {!loading && !teamChannels.length ? (
         <p className="channel-search__results-header">
           <i>No channels found</i>
@@ -114,6 +122,8 @@ const ResultsDropdown = ({
           />
         ))
       )}
+
+      {/* Direct Messages */}
       <p className="channel-search__results-header">Users</p>
       {loading && !directChannels.length && (
         <p className="channel-search__results-header">

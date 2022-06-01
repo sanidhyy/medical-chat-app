@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, useChatContext } from "stream-chat-react";
 
+// Team Channel Preview
 const TeamChannelPreview = ({
   channel,
   type,
@@ -11,17 +12,20 @@ const TeamChannelPreview = ({
 }) => {
   const { channel: activeChannel, client } = useChatContext();
 
+  // Channel Name
   const ChannelPreview = () => (
     <p className="channel-preview__item">
       # {channel?.data?.name || channel?.data?.id}
     </p>
   );
 
+  // Direct Messaging username
   const DirectPreview = () => {
     const members = Object.values(channel.state.members).filter(
       ({ user }) => user.id !== client.userID
     );
 
+    // Render users
     return (
       <div className="channel-preview__item single">
         <Avatar
@@ -34,6 +38,7 @@ const TeamChannelPreview = ({
     );
   };
 
+  // Render channels
   return (
     <div
       className={

@@ -3,6 +3,7 @@ import { Avatar, useChatContext } from "stream-chat-react";
 
 import { InviteIcon } from "../assets";
 
+// List header container
 const ListContainer = ({ children }) => {
   return (
     <div className="user-list__container">
@@ -15,9 +16,11 @@ const ListContainer = ({ children }) => {
   );
 };
 
+// Every user container
 const UserItem = ({ user, setSelectedUsers }) => {
   const [selected, setSelected] = useState(false);
 
+  // Handling selected users
   const handleSelect = () => {
     if (selected) {
       setSelectedUsers((prevUsers) =>
@@ -29,6 +32,7 @@ const UserItem = ({ user, setSelectedUsers }) => {
     setSelected((prevSelected) => !prevSelected);
   };
 
+  // render users
   return (
     <div className="user-item__wrapper" onClick={handleSelect}>
       <div className="user-item__name-wrapper">
@@ -40,6 +44,7 @@ const UserItem = ({ user, setSelectedUsers }) => {
   );
 };
 
+// Get user list
 const UserList = ({ setSelectedUsers }) => {
   const { client } = useChatContext();
   const [users, setUsers] = useState([]);
@@ -47,6 +52,7 @@ const UserList = ({ setSelectedUsers }) => {
   const [listEmpty, setListEmpty] = useState(false);
   const [error, setError] = useState(false);
 
+  // get each users
   useEffect(() => {
     const getUsers = async () => {
       if (loading) return;
@@ -81,6 +87,7 @@ const UserList = ({ setSelectedUsers }) => {
     if (client) getUsers();
   }, []);
 
+  // Error handling
   if (error) {
     return (
       <ListContainer>
@@ -91,6 +98,7 @@ const UserList = ({ setSelectedUsers }) => {
     );
   }
 
+  // if no users are found
   if (listEmpty) {
     return (
       <ListContainer>
@@ -99,6 +107,7 @@ const UserList = ({ setSelectedUsers }) => {
     );
   }
 
+  // return each users
   return (
     <ListContainer>
       {loading ? (
