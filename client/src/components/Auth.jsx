@@ -20,6 +20,7 @@ const initialState = {
 const Auth = () => {
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
+  const [error, setError] = useState(null);
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -34,13 +35,15 @@ const Auth = () => {
 
     const {
       data: { token, userId, hashedPassword, fullName },
-    } = await axios.post(`${URL}/${isSignup ? "signup" : "login"}`, {
-      username,
-      password,
-      fullName: form.fullName,
-      phoneNumber,
-      avatarURL,
-    });
+    } = await axios
+      .post(`${URL}/${isSignup ? "signup" : "login"}`, {
+        username,
+        password,
+        fullName: form.fullName,
+        phoneNumber,
+        avatarURL,
+      })
+      .catch((error) => setError(error?.response?.data?.message));
 
     cookies.set("token", token);
     cookies.set("username", username);
@@ -66,6 +69,11 @@ const Auth = () => {
       <div className="auth__form-container_fields">
         <div className="auth__form-container_fields-content">
           <p>{isSignup ? "Sign Up" : "Sign In"}</p>
+          <small
+            style={{ color: "red", fontFamily: "Helvetica Neue, sans-serif" }}
+          >
+            {error || ""}
+          </small>
           <form onSubmit={handleSubmit} autoCapitalize="off" autoComplete="off">
             {/* Full Name */}
             {isSignup && (
