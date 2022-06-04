@@ -4,10 +4,13 @@
 
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://github.com/Technical-Shubham-tech)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Technical-Shubham-tech/medical-chat-app/commits/main)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Technical-Shubham-tech/medical-chat-app/blob/main/LICENSE.md)
-[![GitHub branches](https://badgen.net/github/branches/Naereen/Strapdown.js)](https://github.com/Technical-Shubham-tech/medical-chat-app/branches)
+[![GitHub license](https://img.shields.io/github/license/Technical-Shubham-tech/medical-chat-app)](https://github.com/Technical-Shubham-tech/medical-chat-app/blob/main/LICENSE.md)
+[![GitHub branches](https://badgen.net/github/branches/Technical-Shubham-tech/medical-chat-app/)](https://github.com/Technical-Shubham-tech/medical-chat-app/branches)
+[![Github commits](https://badgen.net/github/commits/Technical-Shubham-tech/medical-chat-app/main)](https://github.com/Technical-Shubham-tech/medical-chat-app/commits/)
+[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://chat-medical.netlify.app/)
+[![GitHub issues](https://img.shields.io/github/issues/Technical-Shubham-tech/medical-chat-app)](https://github.com/Technical-Shubham-tech/medical-chat-app/issues)
 
-## Before you start
+## 📌 Before you start
 1. Make sure **Git** and **NodeJS** is installed
 2. **Yarn** is faster than Npm. So use [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/).
 3. Create .env file in both client and server folder.
@@ -46,7 +49,7 @@ REACT_APP_STREAM_API_KEY_SECRET=xxxxxxxxxx
 
 Make sure you don't share them publicly.
 
-## How to use this App?
+## 📌 How to use this App?
 1. Clone this **repository** to your local computer.
 2. Open **terminal** in root directory and `cd server`
 3. Type and Run `yarn install`
@@ -60,11 +63,18 @@ Make sure you don't share them publicly.
 
 ![Authentication Page](https://user-images.githubusercontent.com/71302066/171993613-4ea393c9-654a-4170-aede-8833206c22d5.png)
 
-## Created with
+## 📌 Built with
 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
 [![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
-[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
+[![built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
+![React JS](https://user-images.githubusercontent.com/71302066/171997679-ae172a8b-ab3f-4fe1-820c-33fce46e9248.gif)
 
-## Features
 
+## 📌 Stats
+
+![chat-medical netlify app](https://user-images.githubusercontent.com/71302066/171997300-3f793b63-71f7-4c0b-a0d7-3f5460d30e26.svg)
+
+## 📌 Follow Me
+[![GitHub followers](https://img.shields.io/github/followers/Technical-Shubham-tech?style=social&label=Follow&maxAge=2592000)](https://github.com/Technical-Shubham-tech)
+[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2FTechnicalShubam)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FTechnical-Shubham-tech%2Fmedical-chat-app)
