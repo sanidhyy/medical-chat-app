@@ -25,10 +25,25 @@ const Auth = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validURL = (str) => {
+    var pattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    var img = str.match(/\.(jpeg|jpg|gif|png)$/);
+    return !!pattern.test(str) && img != null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { username, password, phoneNumber, avatarURL } = form;
+    const { username, password, confirmPassword, phoneNumber, avatarURL } =
+      form;
 
     // change server address in production
     const URL = "http://localhost:5000/auth";
@@ -39,9 +54,9 @@ const Auth = () => {
       .post(`${URL}/${isSignup ? "signup" : "login"}`, {
         username,
         password,
+        confirmPassword,
         fullName: form.fullName,
         phoneNumber,
-        avatarURL,
       })
       .catch((error) => setError(error?.response?.data?.message));
 
@@ -52,7 +67,7 @@ const Auth = () => {
 
     if (isSignup) {
       cookies.set("phoneNumber", phoneNumber);
-      cookies.set("avatarURL", avatarURL);
+      cookies.set("avatarURL", validURL(avatarURL) ? avatarURL : "");
       cookies.set("hashedPassword", hashedPassword);
     }
 
@@ -62,6 +77,7 @@ const Auth = () => {
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
+    setError(null);
   };
 
   return (
@@ -78,12 +94,12 @@ const Auth = () => {
             {/* Full Name */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
-                <label htmlFor="fullName">Full Name</label>
+                <label htmlFor="fullName">Full Name *</label>
                 <input
                   type="text"
                   name="fullName"
                   id="fullName"
-                  placeholder="Full Name"
+                  placeholder="John Doe"
                   onChange={handleChange}
                   required
                 />
@@ -92,12 +108,12 @@ const Auth = () => {
 
             {/* Username */}
             <div className="auth__form-container_fields-content_input">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Username *</label>
               <input
                 type="text"
                 name="username"
                 id="username"
-                placeholder="Username"
+                placeholder="johndoe"
                 onChange={handleChange}
                 required
               />
@@ -106,12 +122,12 @@ const Auth = () => {
             {/* Phone No */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
-                <label htmlFor="phoneNumber">Phone No</label>
+                <label htmlFor="phoneNumber">Phone No *</label>
                 <input
                   type="text"
                   name="phoneNumber"
                   id="phoneNumber"
-                  placeholder="Phone Number"
+                  placeholder="+1 000-xxx-xxxx"
                   onChange={handleChange}
                   required
                 />
@@ -126,21 +142,20 @@ const Auth = () => {
                   type="text"
                   name="avatarURL"
                   id="avatarURL"
-                  placeholder="Avatar URL"
+                  placeholder="https://website.com/image.png"
                   onChange={handleChange}
-                  required
                 />
               </div>
             )}
 
             {/* Password */}
             <div className="auth__form-container_fields-content_input">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Password *</label>
               <input
                 type="password"
                 name="password"
                 id="password"
-                placeholder="Password"
+                placeholder="**********"
                 onChange={handleChange}
                 required
               />
@@ -149,12 +164,12 @@ const Auth = () => {
             {/* Confirm Password */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
-                <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="confirmPassword">Confirm Password *</label>
                 <input
                   type="password"
                   name="confirmPassword"
                   id="confirmPassword"
-                  placeholder="Confirm Password"
+                  placeholder="**********"
                   onChange={handleChange}
                   required
                 />

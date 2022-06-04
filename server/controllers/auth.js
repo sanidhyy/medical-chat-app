@@ -14,7 +14,24 @@ const APP_ID = process.env.STREAM_APP_ID;
 // Signup
 const signup = async (req, res) => {
   try {
-    const { fullName, username, password, phoneNumber } = req.body;
+    const { fullName, username, password, confirmPassword, phoneNumber } =
+      req.body;
+
+    if (
+      !fullName.length ||
+      !username.length ||
+      !password.length ||
+      !confirmPassword.length ||
+      !phoneNumber.length
+    )
+      return res
+        .status(400)
+        .json({ message: "Please fill the required fields" });
+
+    if (password != confirmPassword)
+      return res
+        .status(400)
+        .json({ message: "Password and Confirm Password Doesn't Match" });
 
     const userId = crypto.randomBytes(16).toString("hex"); // get 16 random hex bytes for user id
 
