@@ -7,7 +7,6 @@
 [![GitHub license](https://img.shields.io/github/license/Technical-Shubham-tech/medical-chat-app)](https://github.com/Technical-Shubham-tech/medical-chat-app/blob/main/LICENSE.md)
 [![GitHub branches](https://badgen.net/github/branches/Technical-Shubham-tech/medical-chat-app/)](https://github.com/Technical-Shubham-tech/medical-chat-app/branches)
 [![Github commits](https://badgen.net/github/commits/Technical-Shubham-tech/medical-chat-app/main)](https://github.com/Technical-Shubham-tech/medical-chat-app/commits/)
-[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://chat-medical.netlify.app/)
 [![GitHub issues](https://img.shields.io/github/issues/Technical-Shubham-tech/medical-chat-app)](https://github.com/Technical-Shubham-tech/medical-chat-app/issues)
 
 ## 📌 Before you start
