@@ -2,12 +2,12 @@
 
 ![Online Medical Chat App using React JS](https://user-images.githubusercontent.com/71302066/171992846-06f76204-d380-4bc6-8438-2261713d8dda.png)
 
-[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://github.com/Technical-Shubham-tech)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Technical-Shubham-tech/medical-chat-app/commits/main)
-[![GitHub license](https://img.shields.io/github/license/Technical-Shubham-tech/medical-chat-app)](https://github.com/Technical-Shubham-tech/medical-chat-app/blob/main/LICENSE.md)
-[![GitHub branches](https://badgen.net/github/branches/Technical-Shubham-tech/medical-chat-app/)](https://github.com/Technical-Shubham-tech/medical-chat-app/branches)
-[![Github commits](https://badgen.net/github/commits/Technical-Shubham-tech/medical-chat-app/main)](https://github.com/Technical-Shubham-tech/medical-chat-app/commits/)
-[![GitHub issues](https://img.shields.io/github/issues/Technical-Shubham-tech/medical-chat-app)](https://github.com/Technical-Shubham-tech/medical-chat-app/issues)
+[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://github.com/sanidhyy)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/sanidhyy/medical-chat-app/commits/main)
+[![GitHub license](https://img.shields.io/github/license/sanidhyy/medical-chat-app)](https://github.com/sanidhyy/medical-chat-app/blob/main/LICENSE.md)
+[![GitHub branches](https://badgen.net/github/branches/sanidhyy/medical-chat-app/)](https://github.com/sanidhyy/medical-chat-app/branches)
+[![Github commits](https://badgen.net/github/commits/sanidhyy/medical-chat-app/main)](https://github.com/sanidhyy/medical-chat-app/commits/)
+[![GitHub issues](https://img.shields.io/github/issues/sanidhyy/medical-chat-app)](https://github.com/sanidhyy/medical-chat-app/issues)
 
 ## 📌 Before you start
 1. Make sure **Git** and **NodeJS** is installed
@@ -80,8 +80,8 @@ You might encounter some bugs while using this app. You are more than welcome to
 [<img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" width="200" />](https://www.buymeacoffee.com/sanidhy "Buy me a Coffee")
 
 ## 📌 Follow Me
-[![GitHub followers](https://img.shields.io/github/followers/Technical-Shubham-tech?style=social&label=Follow&maxAge=2592000)](https://github.com/Technical-Shubham-tech)
-[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2FTechnicalShubam)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FTechnical-Shubham-tech%2Fmedical-chat-app)
+[![GitHub followers](https://img.shields.io/github/followers/sanidhyy?style=social&label=Follow&maxAge=2592000)](https://github.com/sanidhyy)
+[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Fsanidhyyy)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fsanidhyy%2Fmedical-chat-app)
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/channel/UCNAz_hUVBG2ZUN8TVm0bmYw)
 
 ## :star: Give A Star
