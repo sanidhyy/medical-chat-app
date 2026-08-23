@@ -68,7 +68,7 @@ If you run into issues during installation or setup:
 
 - **GitHub Discussions** — [Open a Q&A discussion](https://github.com/sanidhyy/medical-chat-app/discussions/new?category=q-a) for setup and troubleshooting help.
 - **Email** — [sanidhyyy@gmail.com](mailto:sanidhyyy@gmail.com)
-- **Discord** — `sanidhyy`
+- **Discord** — `@sanidhyy`
 
 ## 📌 Built with
 [<img src="https://media3.giphy.com/media/ln7z2eWriiQAllfVcn/200w.webp" width="100">](https://www.javascript.com/)
