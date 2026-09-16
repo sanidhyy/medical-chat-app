@@ -3,6 +3,7 @@ import type { UserFilters, UserResponse } from "stream-chat";
 import { Avatar, useChatContext } from "stream-chat-react";
 
 import { InviteIcon } from "../assets";
+import Spinner from "./Spinner";
 import type { Setter } from "../types";
 
 const ListContainer = ({ children }: { children: ReactNode }) => {
@@ -141,7 +142,9 @@ const UserList = ({
   return (
     <ListContainer>
       {loading ? (
-        <div className="user-list__message">Loading users...</div>
+        <div className="user-list__message user-list__message--loading">
+          <Spinner label="Loading users" />
+        </div>
       ) : (
         users.map((user) => (
           <UserItem

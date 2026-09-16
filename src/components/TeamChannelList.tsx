@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { ChannelListUIProps } from "stream-chat-react";
 
 import { AddChannel } from "../assets";
+import Spinner from "./Spinner";
 import type { ChannelKind, Setter } from "../types";
 
 type TeamChannelListProps = ChannelListUIProps & {
@@ -40,9 +41,11 @@ const TeamChannelList = ({
   if (loading) {
     return (
       <div className="team-channel-list">
-        <p className="team-channel-list__message loading">
-          {type === "team" ? "Channels" : "Messages"} loading...
-        </p>
+        <div className="team-channel-list__message loading">
+          <Spinner
+            label={type === "team" ? "Loading channels" : "Loading messages"}
+          />
+        </div>
       </div>
     );
   }

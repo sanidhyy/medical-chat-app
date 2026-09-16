@@ -1,6 +1,7 @@
 import type { Channel, ChannelFilters, StreamChat, UserResponse } from "stream-chat";
 import { Avatar, useChatContext } from "stream-chat-react";
 
+import Spinner from "./Spinner";
 import type { Setter } from "../types";
 
 type ChannelByUserArgs = {
@@ -142,9 +143,9 @@ const ResultsDropdown = ({
     <div className="channel-search__results">
       <p className="channel-search__results-header">Channels</p>
       {loading && !teamChannels?.length && (
-        <p className="channel-search__results-header">
-          <i>Loading...</i>
-        </p>
+        <div className="channel-search__results-loading">
+          <Spinner size={16} label="Loading channels" />
+        </div>
       )}
 
       {!loading && !teamChannels?.length ? (
@@ -166,9 +167,9 @@ const ResultsDropdown = ({
 
       <p className="channel-search__results-header">Users</p>
       {loading && !directChannels?.length && (
-        <p className="channel-search__results-header">
-          <i>Loading...</i>
-        </p>
+        <div className="channel-search__results-loading">
+          <Spinner size={16} label="Loading users" />
+        </div>
       )}
       {!loading && !directChannels?.length ? (
         <p className="channel-search__results-header">
