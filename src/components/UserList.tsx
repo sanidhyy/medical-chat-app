@@ -5,6 +5,7 @@ import { Avatar, useChatContext } from "stream-chat-react";
 import { InviteIcon } from "../assets";
 import Spinner from "./Spinner";
 import type { Setter } from "../types";
+import { isSignedUpUser } from "../users";
 
 const ListContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -102,8 +103,10 @@ const UserList = ({
 
         if (cancelled) return;
 
-        if (response.users.length) {
-          setUsers(response.users);
+        const users = response.users.filter(isSignedUpUser);
+
+        if (users.length) {
+          setUsers(users);
         } else {
           setListEmpty(true);
         }

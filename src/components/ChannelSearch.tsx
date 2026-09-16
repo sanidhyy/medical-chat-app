@@ -5,6 +5,7 @@ import { useChatContext } from "stream-chat-react";
 import ResultsDropdown from "./ResultsDropdown";
 import { SearchIcon } from "../assets";
 import type { Setter } from "../types";
+import { isSignedUpUser } from "../users";
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -51,7 +52,7 @@ const ChannelSearch = ({ setToggleContainer }: ChannelSearchProps) => {
           if (cancelled) return;
 
           setTeamChannels(channels);
-          setDirectChannels(users);
+          setDirectChannels(users.filter(isSignedUpUser));
         } catch (error) {
           console.log(error);
           if (cancelled) return;
