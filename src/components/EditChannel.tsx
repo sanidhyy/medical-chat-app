@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent, type MouseEvent } from "react";
+import type { ChannelMemberResponse } from "stream-chat";
 import { useChatContext } from "stream-chat-react";
 
 import { UserList } from "./";
@@ -33,14 +34,20 @@ const ChannelNameInput = ({
   );
 };
 
+const memberIdsFromChannel = (members: Record<string, ChannelMemberResponse>) =>
+  Object.values(members)
+    .map((member) => member.user_id || member.user?.id)
+    .filter((id): id is string => Boolean(id));
+
 type EditChannelProps = {
   setIsEditing: Setter<boolean>;
 };
 
 const EditChannel = ({ setIsEditing }: EditChannelProps) => {
   const { channel } = useChatContext();
+  const existingMemberIds = memberIdsFromChannel(channel?.state.members ?? {});
   const [channelName, setChannelName] = useState(channel?.data?.name ?? "");
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>(existingMemberIds);
 
   const updateChannel = async (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -48,20 +55,27 @@ const EditChannel = ({ setIsEditing }: EditChannelProps) => {
     if (!channel) return;
 
     const nameChanged = channelName !== (channel.data?.name || channel.data?.id);
+    const membersToAdd = selectedUsers.filter(
+      (id) => !existingMemberIds.includes(id),
+    );
 
-    if (nameChanged) {
-      await channel.update(
-        { name: channelName },
-        { text: `Channel name changed to ${channelName}` },
-      );
-
-      if (selectedUsers.length) {
-        await channel.addMembers(selectedUsers);
+    try {
+      if (nameChanged) {
+        await channel.update(
+          { name: channelName },
+          { text: `Channel name changed to ${channelName}` },
+        );
       }
 
-      setChannelName("");
-      setIsEditing(false);
-      setSelectedUsers([]);
+      if (membersToAdd.length) {
+        await channel.addMembers(membersToAdd);
+      }
+
+      if (nameChanged || membersToAdd.length) {
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -75,7 +89,11 @@ const EditChannel = ({ setIsEditing }: EditChannelProps) => {
         channelName={channelName}
         setChannelName={setChannelName}
       />
-      <UserList setSelectedUsers={setSelectedUsers} />
+      <UserList
+        selectedUsers={selectedUsers}
+        setSelectedUsers={setSelectedUsers}
+        lockedUserIds={existingMemberIds}
+      />
       <div className="edit-channel__button-wrapper" onClick={updateChannel}>
         <p>Save Changes</p>
       </div>

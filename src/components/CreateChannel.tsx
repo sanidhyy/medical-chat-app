@@ -83,7 +83,10 @@ const CreateChannel = ({ createType, setIsCreating }: CreateChannelProps) => {
       ) : (
         <p className="create-channel__members-label">Add Members</p>
       )}
-      <UserList setSelectedUsers={setSelectedUsers} />
+      <UserList
+        selectedUsers={selectedUsers}
+        setSelectedUsers={setSelectedUsers}
+      />
       <div className="create-channel__button-wrapper" onClick={createChannel}>
         <p>
           {createType === "team" ? "Create Channel" : "Create Message Group"}
