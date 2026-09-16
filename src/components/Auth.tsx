@@ -50,11 +50,10 @@ const Auth = () => {
 
     try {
       const {
-        data: { token, userId, hashedPassword, fullName },
+        data: { token, userId, fullName },
       } = await axios.post<{
         token: string;
         userId: string;
-        hashedPassword?: string;
         fullName: string;
       }>(`${URL}/${isSignup ? "signup" : "login"}`, {
         username,
@@ -72,7 +71,6 @@ const Auth = () => {
       if (isSignup) {
         cookies.set("phoneNumber", phoneNumber);
         cookies.set("avatarURL", validURL(avatarURL) ? avatarURL : "");
-        cookies.set("hashedPassword", hashedPassword);
       }
 
       window.location.reload();

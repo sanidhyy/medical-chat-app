@@ -11,7 +11,7 @@ import "stream-chat-react/dist/css/index.css";
 
 const cookies = new Cookies();
 
-const API_KEY = import.meta.env.VITE_STREAM_API_KEY_SECRET;
+const API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 const authToken = cookies.get("token") as string | undefined;
 
 const client = StreamChat.getInstance(API_KEY);
@@ -23,7 +23,6 @@ if (authToken) {
       name: cookies.get("username") as string,
       fullName: cookies.get("fullName") as string,
       image: cookies.get("avatarURL") as string,
-      hashedPassword: cookies.get("hashedPassword") as string,
       phoneNumber: cookies.get("phoneNumber") as string,
     },
     authToken,

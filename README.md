@@ -23,9 +23,9 @@ TWILIO_ACCOUNT_SID=xxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxx
 TWILIO_MESSAGING_SERVICE_SID=xxxxxxxxxxxxxxxxx
 ```
-5. Public Stream key (Vite client):
+5. Public Stream key (Vite client only):
 ```
-VITE_STREAM_API_KEY_SECRET=xxxxxxxxxx
+VITE_STREAM_API_KEY=xxxxxxxxxx
 ```
 
 6. Create an account in [Stream](https://getstream.io/)
@@ -34,7 +34,7 @@ VITE_STREAM_API_KEY_SECRET=xxxxxxxxxx
 
 ![Copy these keys](https://user-images.githubusercontent.com/71302066/171994842-0a821356-0294-4a33-bac3-29b694eec10e.png)
 
-*NOTE:* Both `STREAM_API_KEY` and `VITE_STREAM_API_KEY_SECRET` are the public Stream API key. Never put `STREAM_API_SECRET` or Twilio credentials in a `VITE_` variable.
+*NOTE:* `STREAM_API_KEY` and `VITE_STREAM_API_KEY` are the same **public** Stream API key. Never put `STREAM_API_SECRET` or Twilio credentials in a `VITE_` variable — Vite embeds those into the browser bundle.
 
 9. To use messaging functionality, Create an account in [Twilio](https://www.twilio.com/try-twilio)
 10. On app dashboard, copy keys which are shown below and paste them in the root `.env` file.
