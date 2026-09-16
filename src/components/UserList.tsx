@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import type { UserResponse } from "stream-chat";
 import { Avatar, useChatContext } from "stream-chat-react";
 
 import { InviteIcon } from "../assets";
+import type { Setter } from "../types";
 
-// List header container
-const ListContainer = ({ children }) => {
+const ListContainer = ({ children }: { children: ReactNode }) => {
   return (
     <div className="user-list__container">
       <div className="user-list__header">
@@ -16,15 +17,18 @@ const ListContainer = ({ children }) => {
   );
 };
 
-// Every user container
-const UserItem = ({ user, setSelectedUsers }) => {
+type UserItemProps = {
+  user: UserResponse;
+  setSelectedUsers: Setter<string[]>;
+};
+
+const UserItem = ({ user, setSelectedUsers }: UserItemProps) => {
   const [selected, setSelected] = useState(false);
 
-  // Handling selected users
   const handleSelect = () => {
     if (selected) {
       setSelectedUsers((prevUsers) =>
-        prevUsers.filter((prevUser) => prevUser !== user.id)
+        prevUsers.filter((prevUser) => prevUser !== user.id),
       );
     } else {
       setSelectedUsers((prevUsers) => [...prevUsers, user.id]);
@@ -32,27 +36,34 @@ const UserItem = ({ user, setSelectedUsers }) => {
     setSelected((prevSelected) => !prevSelected);
   };
 
-  // render users
   return (
     <div className="user-item__wrapper" onClick={handleSelect}>
       <div className="user-item__name-wrapper">
-        <Avatar image={user.image} name={user.fullName || user.id} size={32} />
-        <p className="user-item__name">{user.fullName || user.id}</p>
+        <Avatar
+          image={typeof user.image === "string" ? user.image : undefined}
+          name={(user.fullName as string | undefined) || user.id}
+          size={32}
+        />
+        <p className="user-item__name">
+          {(user.fullName as string | undefined) || user.id}
+        </p>
       </div>
       {selected ? <InviteIcon /> : <div className="user-item__invite-empty" />}
     </div>
   );
 };
 
-// Get user list
-const UserList = ({ setSelectedUsers }) => {
+type UserListProps = {
+  setSelectedUsers: Setter<string[]>;
+};
+
+const UserList = ({ setSelectedUsers }: UserListProps) => {
   const { client } = useChatContext();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<UserResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
   const [error, setError] = useState(false);
 
-  // get each users
   useEffect(() => {
     let cancelled = false;
 
@@ -62,14 +73,14 @@ const UserList = ({ setSelectedUsers }) => {
       try {
         const response = await client.queryUsers(
           {
-            id: { $ne: client.userID },
+            id: { $ne: client.userID as string },
           },
           {
             id: 1,
           },
           {
             limit: 8,
-          }
+          },
         );
 
         if (cancelled) return;
@@ -86,14 +97,13 @@ const UserList = ({ setSelectedUsers }) => {
       }
     };
 
-    if (client) getUsers();
+    if (client) void getUsers();
 
     return () => {
       cancelled = true;
     };
   }, [client]);
 
-  // Error handling
   if (error) {
     return (
       <ListContainer>
@@ -104,7 +114,6 @@ const UserList = ({ setSelectedUsers }) => {
     );
   }
 
-  // if no users are found
   if (listEmpty) {
     return (
       <ListContainer>
@@ -113,15 +122,13 @@ const UserList = ({ setSelectedUsers }) => {
     );
   }
 
-  // return each users
   return (
     <ListContainer>
       {loading ? (
         <div className="user-list__message">Loading users...</div>
       ) : (
-        users?.map((user, i) => (
+        users.map((user) => (
           <UserItem
-            index={i}
             key={user.id}
             user={user}
             setSelectedUsers={setSelectedUsers}

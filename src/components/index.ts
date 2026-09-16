@@ -1,8 +1,3 @@
-/**
- * Export files here after creating a component
- *  in this directory to import it anywhere else
- **/
-
 export { default as ChannelContainer } from "./ChannelContainer";
 export { default as ChannelListContainer } from "./ChannelListContainer";
 export { default as ChannelSearch } from "./ChannelSearch";

@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import { useState, type ChangeEvent, type MouseEvent } from "react";
 import { useChatContext } from "stream-chat-react";
 
 import { UserList } from "./";
 import { CloseCreateChannel } from "../assets";
+import type { ChannelKind, Setter } from "../types";
 
-// Channel Name Input
-const ChannelNameInput = ({ channelName = "", setChannelName }) => {
-  const handleChange = (e) => {
-    // Prevent reloading of page after button click
+type ChannelNameInputProps = {
+  channelName?: string;
+  setChannelName: Setter<string>;
+};
+
+const ChannelNameInput = ({
+  channelName = "",
+  setChannelName,
+}: ChannelNameInputProps) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-
     setChannelName(e.target.value);
   };
 
@@ -26,17 +32,23 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   );
 };
 
-// Create Channel
-const CreateChannel = ({ createType, setIsCreating }) => {
+type CreateChannelProps = {
+  createType: ChannelKind | "";
+  setIsCreating: Setter<boolean>;
+};
+
+const CreateChannel = ({ createType, setIsCreating }: CreateChannelProps) => {
   const { client, setActiveChannel } = useChatContext();
-  const [selectedUsers, setSelectedUsers] = useState([client.userID || ""]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([
+    client.userID || "",
+  ]);
   const [channelName, setChannelName] = useState("");
 
-  const createChannel = async (e) => {
+  const createChannel = async (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     try {
-      const newChannel = await client.channel(createType, channelName, {
+      const newChannel = await client.channel(createType || "messaging", channelName, {
         name: channelName,
         members: selectedUsers,
       });
@@ -45,14 +57,13 @@ const CreateChannel = ({ createType, setIsCreating }) => {
 
       setChannelName("");
       setIsCreating(false);
-      setSelectedUsers([client.userID]);
+      setSelectedUsers([client.userID ?? ""]);
       setActiveChannel(newChannel);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Render create channel
   return (
     <div className="create-channel__container">
       <div className="create-channel__header">

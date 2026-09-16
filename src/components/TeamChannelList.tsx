@@ -1,20 +1,30 @@
-import React from "react";
+import type { ReactNode } from "react";
 
 import { AddChannel } from "../assets";
+import type { ChannelKind, Setter } from "../types";
 
-// Theme Channel List
-const ThemeChannelList = ({
+type TeamChannelListProps = {
+  children?: ReactNode;
+  error?: unknown;
+  loading?: boolean;
+  type: ChannelKind;
+  isCreating?: boolean;
+  setIsCreating: Setter<boolean>;
+  setCreateType: Setter<ChannelKind | "">;
+  setIsEditing: Setter<boolean>;
+  setToggleContainer?: Setter<boolean>;
+};
+
+const TeamChannelList = ({
   children,
   error = false,
   loading,
   type,
-  isCreating,
   setIsCreating,
   setCreateType,
   setIsEditing,
   setToggleContainer,
-}) => {
-  // Error handling
+}: TeamChannelListProps) => {
   if (error) {
     return type === "team" ? (
       <div className="team-channel-list">
@@ -25,7 +35,6 @@ const ThemeChannelList = ({
     ) : null;
   }
 
-  // Loading handling
   if (loading) {
     return (
       <div className="team-channel-list">
@@ -36,7 +45,6 @@ const ThemeChannelList = ({
     );
   }
 
-  // Render Channel list
   return (
     <div className="team-channel-list">
       <div className="team-channel-list__header">
@@ -44,7 +52,6 @@ const ThemeChannelList = ({
           {type === "team" ? "Channels" : "Direct Messages"}
         </p>
         <AddChannel
-          isCreating={isCreating}
           setIsCreating={setIsCreating}
           setCreateType={setCreateType}
           setIsEditing={setIsEditing}
@@ -57,4 +64,4 @@ const ThemeChannelList = ({
   );
 };
 
-export default ThemeChannelList;
+export default TeamChannelList;

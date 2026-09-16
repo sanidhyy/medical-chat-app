@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import Cookies from "universal-cookie";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 import signInImage from "../assets/signup.jpg";
 
-// create cookies instance
 const cookies = new Cookies();
 
 const initialState = {
@@ -16,63 +15,75 @@ const initialState = {
   avatarURL: "",
 };
 
-// Both Authentication forms logic
+type AuthForm = typeof initialState;
+
+const validURL = (str: string) => {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" +
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" +
+      "((\\d{1,3}\\.){3}\\d{1,3}))" +
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" +
+      "(\\?[;&a-z\\d%_.~+=-]*)?" +
+      "(\\#[-a-z\\d_]*)?$",
+    "i",
+  );
+  const img = str.match(/\.(jpeg|jpg|gif|png)$/);
+  return !!pattern.test(str) && img != null;
+};
+
 const Auth = () => {
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState<AuthForm>(initialState);
   const [isSignup, setIsSignup] = useState(false);
-  const [error, setError] = useState(null);
-  const handleChange = (e) => {
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const validURL = (str) => {
-    var pattern = new RegExp(
-      "^(https?:\\/\\/)?" + // protocol
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-        "(\\#[-a-z\\d_]*)?$",
-      "i"
-    ); // fragment locator
-    var img = str.match(/\.(jpeg|jpg|gif|png)$/);
-    return !!pattern.test(str) && img != null;
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { username, password, confirmPassword, phoneNumber, avatarURL } =
       form;
 
-    // change server address in production
     const URL = "http://localhost:5000/auth";
 
-    const {
-      data: { token, userId, hashedPassword, fullName },
-    } = await axios
-      .post(`${URL}/${isSignup ? "signup" : "login"}`, {
+    try {
+      const {
+        data: { token, userId, hashedPassword, fullName },
+      } = await axios.post<{
+        token: string;
+        userId: string;
+        hashedPassword?: string;
+        fullName: string;
+      }>(`${URL}/${isSignup ? "signup" : "login"}`, {
         username,
         password,
         confirmPassword,
         fullName: form.fullName,
         phoneNumber,
-      })
-      .catch((error) => setError(error?.response?.data?.message));
+      });
 
-    cookies.set("token", token);
-    cookies.set("username", username);
-    cookies.set("fullName", fullName);
-    cookies.set("userId", userId);
+      cookies.set("token", token);
+      cookies.set("username", username);
+      cookies.set("fullName", fullName);
+      cookies.set("userId", userId);
 
-    if (isSignup) {
-      cookies.set("phoneNumber", phoneNumber);
-      cookies.set("avatarURL", validURL(avatarURL) ? avatarURL : "");
-      cookies.set("hashedPassword", hashedPassword);
+      if (isSignup) {
+        cookies.set("phoneNumber", phoneNumber);
+        cookies.set("avatarURL", validURL(avatarURL) ? avatarURL : "");
+        cookies.set("hashedPassword", hashedPassword);
+      }
+
+      window.location.reload();
+    } catch (err) {
+      if (isAxiosError<{ message?: string }>(err)) {
+        setError(err.response?.data?.message ?? "Authentication failed");
+        return;
+      }
+
+      setError("Authentication failed");
     }
-
-    // Reload page after authentication
-    window.location.reload();
   };
 
   const switchMode = () => {
@@ -91,7 +102,6 @@ const Auth = () => {
             {error || ""}
           </small>
           <form onSubmit={handleSubmit} autoCapitalize="off" autoComplete="off">
-            {/* Full Name */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="fullName">Full Name *</label>
@@ -106,7 +116,6 @@ const Auth = () => {
               </div>
             )}
 
-            {/* Username */}
             <div className="auth__form-container_fields-content_input">
               <label htmlFor="username">Username *</label>
               <input
@@ -119,7 +128,6 @@ const Auth = () => {
               />
             </div>
 
-            {/* Phone No */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="phoneNumber">Phone No *</label>
@@ -134,7 +142,6 @@ const Auth = () => {
               </div>
             )}
 
-            {/* Avatar URL */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="avatarURL">Avatar URL</label>
@@ -148,7 +155,6 @@ const Auth = () => {
               </div>
             )}
 
-            {/* Password */}
             <div className="auth__form-container_fields-content_input">
               <label htmlFor="password">Password *</label>
               <input
@@ -161,7 +167,6 @@ const Auth = () => {
               />
             </div>
 
-            {/* Confirm Password */}
             {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="confirmPassword">Confirm Password *</label>
@@ -176,7 +181,6 @@ const Auth = () => {
               </div>
             )}
 
-            {/* Signin/Signup button */}
             <div className="auth__form-container_fields-content_button">
               <button>{isSignup ? "Sign Up" : "Sign In"}</button>
             </div>

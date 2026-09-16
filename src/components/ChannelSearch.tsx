@@ -1,28 +1,32 @@
-import React, { useState } from "react";
+import { useState, type ChangeEvent } from "react";
+import type { Channel, UserResponse } from "stream-chat";
 import { useChatContext } from "stream-chat-react";
 
 import ResultsDropdown from "./ResultsDropdown";
 import { SearchIcon } from "../assets";
+import type { Setter } from "../types";
 
-// Channel Search
-const ChannelSearch = ({ setToggleContainer }) => {
+type ChannelSearchProps = {
+  setToggleContainer?: Setter<boolean>;
+};
+
+const ChannelSearch = ({ setToggleContainer }: ChannelSearchProps) => {
   const { client, setActiveChannel } = useChatContext();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [teamChannels, setTeamChannels] = useState([]);
-  const [directChannels, setDirectChannels] = useState([]);
+  const [teamChannels, setTeamChannels] = useState<Channel[]>([]);
+  const [directChannels, setDirectChannels] = useState<UserResponse[]>([]);
 
-  // Get Channels
-  const getChannels = async (text) => {
+  const getChannels = async (text: string) => {
     try {
       const channelResponse = client.queryChannels({
         type: "team",
         name: { $autocomplete: text },
-        members: { $in: [client.userID] },
+        members: { $in: [client.userID as string] },
       });
 
       const userResponse = client.queryUsers({
-        id: { $ne: client.userID },
+        id: { $ne: client.userID as string },
         name: { $autocomplete: text },
       });
 
@@ -39,8 +43,7 @@ const ChannelSearch = ({ setToggleContainer }) => {
     }
   };
 
-  // On Search event
-  const onSearch = (e) => {
+  const onSearch = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const value = e.target.value;
 
@@ -54,17 +57,16 @@ const ChannelSearch = ({ setToggleContainer }) => {
     }
 
     setLoading(true);
-    getChannels(value);
+    void getChannels(value);
   };
 
-  const setChannel = (channel) => {
+  const setChannel = (channel: Channel) => {
     setQuery("");
     setActiveChannel(channel);
   };
 
   return (
     <div className="channel-search__container">
-      {/* Search Field */}
       <div className="channel-search__input__wrapper">
         <div className="channel-search__input__icon">
           <SearchIcon />
@@ -78,7 +80,6 @@ const ChannelSearch = ({ setToggleContainer }) => {
         />
       </div>
 
-      {/* Search Results */}
       {query && (
         <ResultsDropdown
           teamChannels={teamChannels}

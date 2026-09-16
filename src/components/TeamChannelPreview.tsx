@@ -1,7 +1,17 @@
-import React from "react";
+import type { Channel } from "stream-chat";
 import { Avatar, useChatContext } from "stream-chat-react";
 
-// Team Channel Preview
+import type { ChannelKind, Setter } from "../types";
+
+type TeamChannelPreviewProps = {
+  channel: Channel;
+  type: ChannelKind;
+  setToggleContainer?: Setter<boolean>;
+  setIsCreating: Setter<boolean>;
+  setIsEditing: Setter<boolean>;
+  setActiveChannel?: (channel?: Channel) => void;
+};
+
 const TeamChannelPreview = ({
   channel,
   type,
@@ -9,13 +19,12 @@ const TeamChannelPreview = ({
   setIsCreating,
   setIsEditing,
   setActiveChannel,
-}) => {
+}: TeamChannelPreviewProps) => {
   const { channel: activeChannel, client } = useChatContext();
   const members = Object.values(channel.state.members).filter(
-    ({ user }) => user.id !== client.userID
+    ({ user }) => user?.id !== client.userID,
   );
 
-  // Render channels
   return (
     <div
       className={
@@ -26,7 +35,7 @@ const TeamChannelPreview = ({
       onClick={() => {
         setIsCreating(false);
         setIsEditing(false);
-        setActiveChannel(channel);
+        setActiveChannel?.(channel);
 
         if (setToggleContainer) {
           setToggleContainer((prevState) => !prevState);
@@ -35,16 +44,26 @@ const TeamChannelPreview = ({
     >
       {type === "team" ? (
         <p className="channel-preview__item">
-          # {channel?.data?.name || channel?.data?.id}
+          # {(channel.data?.name as string | undefined) || channel.id}
         </p>
       ) : (
         <div className="channel-preview__item single">
           <Avatar
-            image={members[0]?.user?.image}
-            name={members[0]?.user?.fullName || members[0]?.user?.id}
+            image={
+              typeof members[0]?.user?.image === "string"
+                ? members[0].user.image
+                : undefined
+            }
+            name={
+              (members[0]?.user?.fullName as string | undefined) ||
+              members[0]?.user?.id
+            }
             size={24}
           />
-          <p>{members[0]?.user?.fullName || members[0]?.user?.id}</p>
+          <p>
+            {(members[0]?.user?.fullName as string | undefined) ||
+              members[0]?.user?.id}
+          </p>
         </div>
       )}
     </div>

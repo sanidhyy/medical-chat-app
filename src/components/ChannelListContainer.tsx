@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import type { Channel } from "stream-chat";
 import { ChannelList, useChatContext } from "stream-chat-react";
 import Cookies from "universal-cookie";
 
-// Import icons
 import { ChannelSearch, TeamChannelList, TeamChannelPreview } from "./";
 import HospitalIcon from "../assets/hospital.png";
 import LogoutIcon from "../assets/logout.png";
+import type { ChannelKind, Setter } from "../types";
 
-// Create cookies instance
 const cookies = new Cookies();
 
-// Sidebar
-const SideBar = ({ logout }) => (
+const SideBar = ({ logout }: { logout: () => void }) => (
   <div className="channel-list__sidebar">
     <div className="channel-list__sidebar__icon1">
       <div className="icon1__inner">
@@ -19,7 +18,6 @@ const SideBar = ({ logout }) => (
       </div>
     </div>
 
-    {/* Logout icon */}
     <div className="channel-list__sidebar__icon2">
       <div className="icon1__inner" onClick={logout}>
         <img src={LogoutIcon} alt="Logout" width={30} />
@@ -28,7 +26,6 @@ const SideBar = ({ logout }) => (
   </div>
 );
 
-// Alternatively, Logo
 const CompanyHeader = () => (
   <div className="channel-list__header">
     <p className="channel-list__header__text" style={{ cursor: "default" }}>
@@ -37,27 +34,31 @@ const CompanyHeader = () => (
   </div>
 );
 
-// get all channels
-const customChannelTeamFilter = (channels) => {
+const customChannelTeamFilter = (channels: Channel[]) => {
   return channels.filter((channel) => channel.type === "team");
 };
 
-// get all messaging
-const customChannelMessagingFilter = (channels) => {
+const customChannelMessagingFilter = (channels: Channel[]) => {
   return channels.filter((channel) => channel.type === "messaging");
 };
 
-// Channel List Content
+type ChannelListContentProps = {
+  isCreating?: boolean;
+  setIsCreating: Setter<boolean>;
+  setCreateType: Setter<ChannelKind | "">;
+  setIsEditing: Setter<boolean>;
+  setToggleContainer?: Setter<boolean>;
+};
+
 const ChannelListContent = ({
   isCreating,
   setIsCreating,
   setCreateType,
   setIsEditing,
   setToggleContainer,
-}) => {
+}: ChannelListContentProps) => {
   const { client } = useChatContext();
 
-  // Logout
   const logout = () => {
     cookies.remove("token");
     cookies.remove("userId");
@@ -66,22 +67,18 @@ const ChannelListContent = ({
     cookies.remove("avatarURL");
     cookies.remove("hashedPassword");
     cookies.remove("phoneNumber");
-
-    // reload page after logout
     window.location.reload();
   };
 
-  const filters = { members: { $in: [client.userID] } };
+  const filters = { members: { $in: [client.userID as string] } };
 
   return (
     <>
       <SideBar logout={logout} />
       <div className="channel-list__list__wrapper">
         <CompanyHeader />
-        {/* Channel Search */}
         <ChannelSearch setToggleContainer={setToggleContainer} />
 
-        {/* channels */}
         <ChannelList
           filters={filters}
           channelRenderFilterFn={customChannelTeamFilter}
@@ -107,7 +104,6 @@ const ChannelListContent = ({
           )}
         />
 
-        {/* messaging */}
         <ChannelList
           filters={filters}
           channelRenderFilterFn={customChannelMessagingFilter}
@@ -137,15 +133,20 @@ const ChannelListContent = ({
   );
 };
 
-// Channel List Container
+type ChannelListContainerProps = {
+  setCreateType: Setter<ChannelKind | "">;
+  setIsCreating: Setter<boolean>;
+  setIsEditing: Setter<boolean>;
+  isCreating?: boolean;
+};
+
 const ChannelListContainer = ({
   setCreateType,
   setIsCreating,
   setIsEditing,
-}) => {
+}: ChannelListContainerProps) => {
   const [toggleContainer, setToggleContainer] = useState(false);
 
-  // Render all content
   return (
     <>
       <div className="channel-list__container">

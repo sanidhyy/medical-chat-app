@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import { useState, type ChangeEvent, type MouseEvent } from "react";
 import { useChatContext } from "stream-chat-react";
 
 import { UserList } from "./";
 import { CloseCreateChannel } from "../assets";
+import type { Setter } from "../types";
 
-// Channel Name Input
-const ChannelNameInput = ({ channelName = "", setChannelName }) => {
-  const handleChange = (e) => {
-    // Prevent reloading of page after button click
+type ChannelNameInputProps = {
+  channelName?: string;
+  setChannelName: Setter<string>;
+};
+
+const ChannelNameInput = ({
+  channelName = "",
+  setChannelName,
+}: ChannelNameInputProps) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-
     setChannelName(e.target.value);
   };
 
@@ -26,37 +32,41 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   );
 };
 
-// Edit Channel
-const EditChannel = ({ setIsEditing }) => {
-  const { channel } = useChatContext();
-  const [channelName, setChannelName] = useState(channel?.data?.name);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+type EditChannelProps = {
+  setIsEditing: Setter<boolean>;
+};
 
-  const updateChannel = async (e) => {
+const EditChannel = ({ setIsEditing }: EditChannelProps) => {
+  const { channel } = useChatContext();
+  const [channelName, setChannelName] = useState(
+    (channel?.data?.name as string | undefined) ?? "",
+  );
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+
+  const updateChannel = async (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    const nameChanged =
-      channelName !== (channel?.data?.name || channel?.data?.id);
+    if (!channel) return;
 
-    // check if name is changed
+    const nameChanged =
+      channelName !== ((channel.data?.name as string | undefined) || channel.data?.id);
+
     if (nameChanged) {
       await channel.update(
         { name: channelName },
-        { text: `Channel name changed to ${channelName}` }
+        { text: `Channel name changed to ${channelName}` },
       );
 
-      // check if new members are selected/invited
       if (selectedUsers.length) {
         await channel.addMembers(selectedUsers);
       }
 
-      setChannelName(null);
+      setChannelName("");
       setIsEditing(false);
       setSelectedUsers([]);
     }
   };
 
-  // Render edit channel
   return (
     <div className="edit-channel__container">
       <div className="edit-channel__header">

@@ -1,58 +1,51 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StreamChat } from "stream-chat";
 import { Chat } from "stream-chat-react";
 import Cookies from "universal-cookie";
 
 import { ChannelContainer, ChannelListContainer, Auth } from "./components";
+import type { ChannelKind } from "./types";
 
-// CSS Styles
 import "./App.css";
 import "stream-chat-react/dist/css/index.css";
 
 const cookies = new Cookies();
 
-// Get API KEY from .env file
 const API_KEY = import.meta.env.VITE_STREAM_API_KEY_SECRET;
-const authToken = cookies.get("token");
+const authToken = cookies.get("token") as string | undefined;
 
-// Create a client instance
 const client = StreamChat.getInstance(API_KEY);
 
-// if token exists
 if (authToken) {
-  client.connectUser(
+  void client.connectUser(
     {
-      id: cookies.get("userId"),
-      name: cookies.get("username"),
-      fullName: cookies.get("fullName"),
-      image: cookies.get("avatarURL"),
-      hashedPassword: cookies.get("hashedPassword"),
-      phoneNumber: cookies.get("phoneNumber"),
+      id: cookies.get("userId") as string,
+      name: cookies.get("username") as string,
+      fullName: cookies.get("fullName") as string,
+      image: cookies.get("avatarURL") as string,
+      hashedPassword: cookies.get("hashedPassword") as string,
+      phoneNumber: cookies.get("phoneNumber") as string,
     },
-    authToken
+    authToken,
   );
 }
 
-// Main App
 const App = () => {
-  const [createType, setCreateType] = useState("");
+  const [createType, setCreateType] = useState<ChannelKind | "">("");
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Show login screen when not logged in
   if (!authToken) return <Auth />;
 
   return (
     <div className="app__wrapper">
       <Chat client={client} theme="team light">
-        {/* Channel List */}
         <ChannelListContainer
           isCreating={isCreating}
           setIsCreating={setIsCreating}
           setCreateType={setCreateType}
           setIsEditing={setIsEditing}
         />
-        {/* Main Container */}
         <ChannelContainer
           isCreating={isCreating}
           setIsCreating={setIsCreating}

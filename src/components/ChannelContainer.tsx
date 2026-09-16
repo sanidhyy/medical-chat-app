@@ -1,7 +1,7 @@
-import React from "react";
 import { Channel } from "stream-chat-react";
 
 import { ChannelInner, CreateChannel, EditChannel } from "./";
+import type { ChannelKind, Setter } from "../types";
 
 const EmptyState = () => (
   <div className="channel-empty__container">
@@ -14,18 +14,24 @@ const EmptyState = () => (
   </div>
 );
 
-// Channel Container
+type ChannelContainerProps = {
+  isCreating: boolean;
+  setIsCreating: Setter<boolean>;
+  isEditing: boolean;
+  setIsEditing: Setter<boolean>;
+  createType: ChannelKind | "";
+};
+
 const ChannelContainer = ({
   isCreating,
   setIsCreating,
   isEditing,
   setIsEditing,
   createType,
-}) => {
+}: ChannelContainerProps) => {
   if (isCreating) {
     return (
       <div className="channel__container">
-        {/* Create Channel */}
         <CreateChannel createType={createType} setIsCreating={setIsCreating} />
       </div>
     );
@@ -34,13 +40,11 @@ const ChannelContainer = ({
   if (isEditing) {
     return (
       <div className="channel__container">
-        {/* Edit Channel */}
         <EditChannel setIsEditing={setIsEditing} />
       </div>
     );
   }
 
-  // Show all messages
   return (
     <div className="channel__container">
       <Channel EmptyStateIndicator={EmptyState}>

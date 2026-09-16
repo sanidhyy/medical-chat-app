@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { createContext, useState } from "react";
 import {
   MessageList,
   MessageInput,
@@ -8,40 +8,43 @@ import {
   Avatar,
   useChannelStateContext,
   useChatContext,
+  type MessageInputProps,
 } from "stream-chat-react";
 
 import { ChannelInfo } from "../assets";
+import type { Setter } from "../types";
 
-const GiphyContext = React.createContext({});
+type GiphyContextValue = {
+  giphyState: boolean;
+  setGiphyState: Setter<boolean>;
+};
 
-// Channel Inner
-const ChannelInner = ({ setIsEditing }) => {
+const GiphyContext = createContext<GiphyContextValue>({
+  giphyState: false,
+  setGiphyState: () => undefined,
+});
+
+type ChannelInnerProps = {
+  setIsEditing: Setter<boolean>;
+};
+
+const ChannelInner = ({ setIsEditing }: ChannelInnerProps) => {
   const [giphyState, setGiphyState] = useState(false);
   const { sendMessage } = useChannelActionContext();
 
-  // Handle chat submit
-  const overrideSubmitHandler = (message) => {
-    let updatedMessage = {
-      attachments: message.attachments,
-      mentioned_users: message.mentioned_users,
-      parent_id: message.parent?.id,
-      parent: message.parent,
-      text: message.text,
-    };
+  const overrideSubmitHandler: NonNullable<
+    MessageInputProps["overrideSubmitHandler"]
+  > = (message) => {
+    const updatedMessage = giphyState
+      ? { ...message, text: `/giphy ${message.text ?? ""}` }
+      : message;
 
-    // check for gifs in chat
-    if (giphyState) {
-      updatedMessage = { ...updatedMessage, text: `/giphy ${message.text}` };
-    }
-
-    // when message is sent
     if (sendMessage) {
-      sendMessage(updatedMessage);
+      void sendMessage(updatedMessage);
       setGiphyState(false);
     }
   };
 
-  // Render Giphy
   return (
     <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
       <div style={{ display: "flex", width: "100%" }}>
@@ -56,18 +59,17 @@ const ChannelInner = ({ setIsEditing }) => {
   );
 };
 
-const getWatcherText = (watchers) => {
+const getWatcherText = (watchers?: number) => {
   if (!watchers) return "No users online";
   if (watchers === 1) return "1 user online";
   return `${watchers} users online`;
 };
 
-// Team Channel Header
-const TeamChannelHeader = ({ setIsEditing }) => {
+const TeamChannelHeader = ({ setIsEditing }: ChannelInnerProps) => {
   const { channel, watcher_count } = useChannelStateContext();
   const { client } = useChatContext();
   const members = Object.values(channel.state.members).filter(
-    ({ user }) => user.id !== client.userID
+    ({ user }) => user?.id !== client.userID,
   );
   const additionalMembers = members.length - 3;
 
@@ -76,14 +78,14 @@ const TeamChannelHeader = ({ setIsEditing }) => {
       {channel.type === "messaging" ? (
         <div className="team-channel-header__name-wrapper">
           {members.map(({ user }, i) => (
-            <div key={i} className="team-channel-header__name-multi">
+            <div key={user?.id ?? i} className="team-channel-header__name-multi">
               <Avatar
-                image={user.image}
-                name={user.fullName || user.id}
+                image={typeof user?.image === "string" ? user.image : undefined}
+                name={(user?.fullName as string | undefined) ?? user?.id}
                 size={32}
               />
               <p className="team-channel-header__name user">
-                {user.fullName || user.id}
+                {(user?.fullName as string | undefined) ?? user?.id}
               </p>
             </div>
           ))}
@@ -96,7 +98,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
         </div>
       ) : (
         <div className="team-channel-header__channel-wrapper">
-          <p className="team-channel-header__name"># {channel.data.name}</p>
+          <p className="team-channel-header__name"># {channel.data?.name}</p>
           <span style={{ display: "flex" }} onClick={() => setIsEditing(true)}>
             <ChannelInfo />
           </span>
