@@ -1,4 +1,4 @@
-import type { Channel, StreamChat, UserResponse } from "stream-chat";
+import type { Channel, ChannelFilters, StreamChat, UserResponse } from "stream-chat";
 import { Avatar, useChatContext } from "stream-chat-react";
 
 import type { Setter } from "../types";
@@ -16,10 +16,18 @@ const channelByUser = async ({
   channel,
   setChannel,
 }: ChannelByUserArgs) => {
-  const filters = {
+  const currentUserId = client.userID;
+  const otherUserId = channel.id;
+
+  if (!currentUserId || !otherUserId) return;
+
+  const filters: ChannelFilters = {
     type: "messaging",
     member_count: 2,
-    members: { $eq: [client.user?.id as string, client.userID as string] },
+    $and: [
+      { members: { $in: [currentUserId] } },
+      { members: { $in: [otherUserId] } },
+    ],
   };
 
   const [existingChannel] = await client.queryChannels(filters);
@@ -141,7 +149,7 @@ const ResultsDropdown = ({
 
       {!loading && !teamChannels?.length ? (
         <p className="channel-search__results-header">
-          <i>No channels found</i>
+          <i>Not found</i>
         </p>
       ) : (
         teamChannels?.map((channel) => (
@@ -164,7 +172,7 @@ const ResultsDropdown = ({
       )}
       {!loading && !directChannels?.length ? (
         <p className="channel-search__results-header">
-          <i>No direct messages found</i>
+          <i>Not found</i>
         </p>
       ) : (
         directChannels?.map((channel) => (

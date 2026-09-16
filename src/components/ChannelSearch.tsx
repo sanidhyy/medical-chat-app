@@ -1,10 +1,12 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import type { Channel, UserFilters, UserResponse } from "stream-chat";
 import { useChatContext } from "stream-chat-react";
 
 import ResultsDropdown from "./ResultsDropdown";
 import { SearchIcon } from "../assets";
 import type { Setter } from "../types";
+
+const SEARCH_DEBOUNCE_MS = 300;
 
 type ChannelSearchProps = {
   setToggleContainer?: Setter<boolean>;
@@ -17,39 +19,11 @@ const ChannelSearch = ({ setToggleContainer }: ChannelSearchProps) => {
   const [teamChannels, setTeamChannels] = useState<Channel[]>([]);
   const [directChannels, setDirectChannels] = useState<UserResponse[]>([]);
 
-  const getChannels = async (text: string) => {
-    try {
-      const channelResponse = client.queryChannels({
-        type: "team",
-        name: { $autocomplete: text },
-        members: { $in: [client.userID as string] },
-      });
+  useEffect(() => {
+    const text = query.trim();
 
-      const userResponse = client.queryUsers({
-        id: { $ne: client.userID as string },
-        name: { $autocomplete: text },
-      } as unknown as UserFilters);
-
-      const [channels, { users }] = await Promise.all([
-        channelResponse,
-        userResponse,
-      ]);
-
-      if (channels.length) setTeamChannels(channels);
-      if (users.length) setDirectChannels(users);
-    } catch (error) {
-      console.log(error);
-      setQuery("");
-    }
-  };
-
-  const onSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const value = e.target.value;
-
-    setQuery(value);
-
-    if (!value) {
+    if (!text) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTeamChannels([]);
       setDirectChannels([]);
       setLoading(false);
@@ -57,7 +31,46 @@ const ChannelSearch = ({ setToggleContainer }: ChannelSearchProps) => {
     }
 
     setLoading(true);
-    void getChannels(value);
+    let cancelled = false;
+
+    const timeoutId = window.setTimeout(() => {
+      void (async () => {
+        try {
+          const [channels, { users }] = await Promise.all([
+            client.queryChannels({
+              type: "team",
+              name: { $autocomplete: text },
+              members: { $in: [client.userID as string] },
+            }),
+            client.queryUsers({
+              id: { $ne: client.userID as string },
+              name: { $autocomplete: text },
+            } as unknown as UserFilters),
+          ]);
+
+          if (cancelled) return;
+
+          setTeamChannels(channels);
+          setDirectChannels(users);
+        } catch (error) {
+          console.log(error);
+          if (cancelled) return;
+          setTeamChannels([]);
+          setDirectChannels([]);
+        } finally {
+          if (!cancelled) setLoading(false);
+        }
+      })();
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [client, query]);
+
+  const onSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
   };
 
   const setChannel = (channel: Channel) => {
