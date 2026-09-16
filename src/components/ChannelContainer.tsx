@@ -1,4 +1,4 @@
-import { Channel, WithComponents } from "stream-chat-react";
+import { Channel, WithComponents, useChatContext } from "stream-chat-react";
 
 import { ChannelInner, CreateChannel, EditChannel } from "./";
 import type { ChannelKind, Setter } from "../types";
@@ -10,6 +10,16 @@ const EmptyState = () => (
     </p>
     <p className="channel-empty__second">
       Send messages, attachments, links, emojis, and more!
+    </p>
+  </div>
+);
+
+const GetStarted = () => (
+  <div className="channel-start">
+    <p className="channel-start__title">Welcome to Medical Pager</p>
+    <p className="channel-start__subtitle">
+      Select a channel or direct message to get started, or use + to create
+      one.
     </p>
   </div>
 );
@@ -29,6 +39,8 @@ const ChannelContainer = ({
   setIsEditing,
   createType,
 }: ChannelContainerProps) => {
+  const { channel } = useChatContext();
+
   if (isCreating) {
     return (
       <div className="channel__container">
@@ -41,6 +53,14 @@ const ChannelContainer = ({
     return (
       <div className="channel__container">
         <EditChannel setIsEditing={setIsEditing} />
+      </div>
+    );
+  }
+
+  if (!channel) {
+    return (
+      <div className="channel__container">
+        <GetStarted />
       </div>
     );
   }
