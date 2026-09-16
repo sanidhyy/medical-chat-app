@@ -32,7 +32,9 @@
 
 ![Copy messaging service SID](https://user-images.githubusercontent.com/71302066/171995661-6897f4f6-d101-4057-a670-a3abfd169806.png)
 
-10. Create a `.env` file in the repo root (you can copy `.env.example`) and fill in:
+10. Stream Dashboard → **Chat → Overview → Webhook & Event Configuration → URL** → `https://<your-site>/api/webhooks/stream`
+
+11. Create a `.env` file in the repo root (you can copy `.env.example`) and fill in:
 
 ```
 VITE_STREAM_API_KEY=xxxxxxxxxx
@@ -52,7 +54,6 @@ Do not share these values publicly.
 2. Open a terminal in the repo root and run `npm install` or `pnpm install`.
 3. Copy the environment variables into a root `.env` file.
 4. Run `npm run dev` or `pnpm dev`. Vite serves the app and Netlify Functions locally.
-5. In the Stream dashboard, set the webhook URL to `https://<your-site>/api/webhooks/stream`.
 
 ![Authentication Page](https://user-images.githubusercontent.com/71302066/171993613-4ea393c9-654a-4170-aede-8833206c22d5.png)
 
