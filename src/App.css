@@ -516,20 +516,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 16px;
+  padding: 16px 16px 0;
   border-top: 1px solid #00000033;
 }
 
 .channel-search__input__wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 40px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   margin-bottom: 8px;
   border: 1px solid transparent;
-  width: 95%;
+  width: 100%;
+  padding: 0 12px 0 8px;
+  box-sizing: border-box;
 }
 
 .channel-search__input__wrapper:focus-within {
@@ -549,6 +551,9 @@ body {
   font-family: Helvetica Neue, sans-serif;
   font-size: 16px;
   outline: none;
+  flex: 1;
+  min-width: 0;
+  padding: 0 4px;
 }
 
 ::placeholder {
@@ -1830,9 +1835,7 @@ div.rta__autocomplete.str-chat__emojisearch {
   }
 
   .channel-search__input__wrapper {
-    width: 90%;
-    padding-left: 10px;
-    justify-content: flex-start;
+    width: 100%;
   }
 
   .channel-search__input__text {
