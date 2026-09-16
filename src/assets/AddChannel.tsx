@@ -1,6 +1,8 @@
 import type { ChannelKind, Setter } from "../types";
 
 type AddChannelProps = {
+  createType?: ChannelKind | "";
+  isCreating?: boolean;
   setCreateType: Setter<ChannelKind | "">;
   setIsCreating: Setter<boolean>;
   setIsEditing: Setter<boolean>;
@@ -9,6 +11,8 @@ type AddChannelProps = {
 };
 
 export const AddChannel = ({
+  createType,
+  isCreating,
   setCreateType,
   setIsCreating,
   setIsEditing,
@@ -22,10 +26,13 @@ export const AddChannel = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     onClick={() => {
+      const isSameForm = isCreating && createType === type;
       setCreateType(type);
-      setIsCreating((prevState) => !prevState);
+      setIsCreating(!isSameForm);
       setIsEditing(false);
-      if (setToggleContainer) setToggleContainer((prevState) => !prevState);
+      if (setToggleContainer) {
+        setToggleContainer((prevState) => !prevState);
+      }
     }}
   >
     <path

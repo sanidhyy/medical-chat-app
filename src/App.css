@@ -196,9 +196,7 @@ body {
 .app__wrapper {
   display: flex;
   flex: 1;
-  /* height: 800px; */
   height: 100%;
-  /* border-radius: 16px; */
   box-shadow: rgba(0, 0, 0, 0.33) 0px 1px 4px 0px;
 }
 
@@ -208,9 +206,42 @@ body {
   margin-bottom: 8px;
 }
 
+/* Stream v14 ChannelList is a full messenger sidebar. Nest it in the Medical Pager chrome. */
+.channel-list__list__wrapper > .str-chat.str-chat__channel-list {
+  display: block;
+  flex: none;
+  height: auto;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  background: transparent;
+  border: none;
+  color: inherit;
+  position: static;
+  opacity: 1;
+  transform: none;
+  overflow: visible;
+  box-shadow: none;
+}
+
+.channel-list__list__wrapper .str-chat__channel-list__header,
+.channel-list__list__wrapper .str-chat__channel-list-empty {
+  display: none;
+}
+
+.channel-list__list__wrapper .str-chat__channel-list-inner,
+.channel-list__list__wrapper .str-chat__channel-list-inner__main {
+  height: auto;
+  overflow: visible;
+  padding: 0;
+  scrollbar-gutter: auto;
+}
+
 .str-chat-channel,
 .str-chat__channel {
   height: 100%;
+  min-width: 0;
+  flex: 1;
 }
 
 .str-chat__load-more-button {
@@ -302,6 +333,8 @@ body {
 .channel__container {
   height: 100%;
   width: 100%;
+  min-width: 0;
+  flex: 1;
 }
 
 .str-chat__thread {

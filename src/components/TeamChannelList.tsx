@@ -7,6 +7,7 @@ import type { ChannelKind, Setter } from "../types";
 type TeamChannelListProps = ChannelListUIProps & {
   children?: ReactNode;
   type: ChannelKind;
+  createType?: ChannelKind | "";
   isCreating?: boolean;
   setIsCreating: Setter<boolean>;
   setCreateType: Setter<ChannelKind | "">;
@@ -19,6 +20,8 @@ const TeamChannelList = ({
   error = null,
   loading,
   type,
+  createType,
+  isCreating,
   setIsCreating,
   setCreateType,
   setIsEditing,
@@ -51,6 +54,8 @@ const TeamChannelList = ({
           {type === "team" ? "Channels" : "Direct Messages"}
         </p>
         <AddChannel
+          createType={createType}
+          isCreating={isCreating}
           setIsCreating={setIsCreating}
           setCreateType={setCreateType}
           setIsEditing={setIsEditing}
