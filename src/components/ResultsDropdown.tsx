@@ -34,14 +34,16 @@ const channelByUser = async ({
   const [existingChannel] = await client.queryChannels(filters);
 
   if (existingChannel) {
+    setChannel(existingChannel);
     setActiveChannel(existingChannel);
     return;
   }
 
   const newChannel = client.channel("messaging", {
-    members: [channel.id, client.userID as string],
+    members: [otherUserId, currentUserId],
   });
 
+  await newChannel.watch();
   setChannel(newChannel);
   setActiveChannel(newChannel);
 };
