@@ -73,7 +73,7 @@ const SearchResult = ({
       >
         <div className="result-hashtag">#</div>
         <p className="channel-search__result-text">
-          {teamChannel.data?.name as string | undefined}
+          {teamChannel.data?.name}
         </p>
       </div>
     );
@@ -102,9 +102,9 @@ const SearchResult = ({
     >
       <div className="channel-search__result-user">
         <Avatar
-          image={typeof user.image === "string" ? user.image : undefined}
-          name={typeof user.name === "string" ? user.name : user.id}
-          size={24}
+          imageUrl={typeof user.image === "string" ? user.image : undefined}
+          userName={typeof user.name === "string" ? user.name : user.id}
+          size="sm"
         />
         <p className="channel-search__result-text">{user.name}</p>
       </div>

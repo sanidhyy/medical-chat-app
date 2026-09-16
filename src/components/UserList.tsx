@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import type { UserResponse } from "stream-chat";
+import type { UserFilters, UserResponse } from "stream-chat";
 import { Avatar, useChatContext } from "stream-chat-react";
 
 import { InviteIcon } from "../assets";
@@ -40,13 +40,11 @@ const UserItem = ({ user, setSelectedUsers }: UserItemProps) => {
     <div className="user-item__wrapper" onClick={handleSelect}>
       <div className="user-item__name-wrapper">
         <Avatar
-          image={typeof user.image === "string" ? user.image : undefined}
-          name={(user.fullName as string | undefined) || user.id}
-          size={32}
+          imageUrl={typeof user.image === "string" ? user.image : undefined}
+          userName={user.fullName || user.id}
+          size="md"
         />
-        <p className="user-item__name">
-          {(user.fullName as string | undefined) || user.id}
-        </p>
+        <p className="user-item__name">{user.fullName || user.id}</p>
       </div>
       {selected ? <InviteIcon /> : <div className="user-item__invite-empty" />}
     </div>
@@ -74,7 +72,7 @@ const UserList = ({ setSelectedUsers }: UserListProps) => {
         const response = await client.queryUsers(
           {
             id: { $ne: client.userID as string },
-          },
+          } as unknown as UserFilters,
           {
             id: 1,
           },

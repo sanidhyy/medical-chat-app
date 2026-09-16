@@ -1,61 +1,30 @@
-import { createContext, useState } from "react";
 import {
   MessageList,
-  MessageInput,
+  MessageComposer,
   Thread,
   Window,
-  useChannelActionContext,
   Avatar,
   useChannelStateContext,
   useChatContext,
-  type MessageInputProps,
 } from "stream-chat-react";
 
 import { ChannelInfo } from "../assets";
 import type { Setter } from "../types";
-
-type GiphyContextValue = {
-  giphyState: boolean;
-  setGiphyState: Setter<boolean>;
-};
-
-const GiphyContext = createContext<GiphyContextValue>({
-  giphyState: false,
-  setGiphyState: () => undefined,
-});
 
 type ChannelInnerProps = {
   setIsEditing: Setter<boolean>;
 };
 
 const ChannelInner = ({ setIsEditing }: ChannelInnerProps) => {
-  const [giphyState, setGiphyState] = useState(false);
-  const { sendMessage } = useChannelActionContext();
-
-  const overrideSubmitHandler: NonNullable<
-    MessageInputProps["overrideSubmitHandler"]
-  > = (message) => {
-    const updatedMessage = giphyState
-      ? { ...message, text: `/giphy ${message.text ?? ""}` }
-      : message;
-
-    if (sendMessage) {
-      void sendMessage(updatedMessage);
-      setGiphyState(false);
-    }
-  };
-
   return (
-    <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
-      <div style={{ display: "flex", width: "100%" }}>
-        <Window>
-          <TeamChannelHeader setIsEditing={setIsEditing} />
-          <MessageList />
-          <MessageInput overrideSubmitHandler={overrideSubmitHandler} />
-        </Window>
-        <Thread />
-      </div>
-    </GiphyContext.Provider>
+    <div style={{ display: "flex", width: "100%" }}>
+      <Window>
+        <TeamChannelHeader setIsEditing={setIsEditing} />
+        <MessageList />
+        <MessageComposer />
+      </Window>
+      <Thread />
+    </div>
   );
 };
 
@@ -80,12 +49,12 @@ const TeamChannelHeader = ({ setIsEditing }: ChannelInnerProps) => {
           {members.map(({ user }, i) => (
             <div key={user?.id ?? i} className="team-channel-header__name-multi">
               <Avatar
-                image={typeof user?.image === "string" ? user.image : undefined}
-                name={(user?.fullName as string | undefined) ?? user?.id}
-                size={32}
+                imageUrl={typeof user?.image === "string" ? user.image : undefined}
+                userName={user?.fullName ?? user?.id}
+                size="md"
               />
               <p className="team-channel-header__name user">
-                {(user?.fullName as string | undefined) ?? user?.id}
+                {user?.fullName ?? user?.id}
               </p>
             </div>
           ))}

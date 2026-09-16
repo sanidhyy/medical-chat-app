@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import type { Channel, UserResponse } from "stream-chat";
+import type { Channel, UserFilters, UserResponse } from "stream-chat";
 import { useChatContext } from "stream-chat-react";
 
 import ResultsDropdown from "./ResultsDropdown";
@@ -28,7 +28,7 @@ const ChannelSearch = ({ setToggleContainer }: ChannelSearchProps) => {
       const userResponse = client.queryUsers({
         id: { $ne: client.userID as string },
         name: { $autocomplete: text },
-      });
+      } as unknown as UserFilters);
 
       const [channels, { users }] = await Promise.all([
         channelResponse,

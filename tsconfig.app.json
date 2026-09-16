@@ -20,5 +20,5 @@
     "noUncheckedSideEffectImports": true,
     "stableTypeOrdering": true
   },
-  "include": ["src"]
+  "include": ["src", "stream-chat.d.ts"]
 }

@@ -38,9 +38,7 @@ type EditChannelProps = {
 
 const EditChannel = ({ setIsEditing }: EditChannelProps) => {
   const { channel } = useChatContext();
-  const [channelName, setChannelName] = useState(
-    (channel?.data?.name as string | undefined) ?? "",
-  );
+  const [channelName, setChannelName] = useState(channel?.data?.name ?? "");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
   const updateChannel = async (e: MouseEvent<HTMLDivElement>) => {
@@ -48,8 +46,7 @@ const EditChannel = ({ setIsEditing }: EditChannelProps) => {
 
     if (!channel) return;
 
-    const nameChanged =
-      channelName !== ((channel.data?.name as string | undefined) || channel.data?.id);
+    const nameChanged = channelName !== (channel.data?.name || channel.data?.id);
 
     if (nameChanged) {
       await channel.update(

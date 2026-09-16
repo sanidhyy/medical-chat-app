@@ -19,5 +19,5 @@
     "stableTypeOrdering": true,
     "types": ["node"]
   },
-  "include": ["netlify"]
+  "include": ["netlify", "stream-chat.d.ts"]
 }

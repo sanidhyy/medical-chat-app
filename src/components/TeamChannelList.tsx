@@ -1,12 +1,11 @@
 import type { ReactNode } from "react";
+import type { ChannelListUIProps } from "stream-chat-react";
 
 import { AddChannel } from "../assets";
 import type { ChannelKind, Setter } from "../types";
 
-type TeamChannelListProps = {
+type TeamChannelListProps = ChannelListUIProps & {
   children?: ReactNode;
-  error?: unknown;
-  loading?: boolean;
   type: ChannelKind;
   isCreating?: boolean;
   setIsCreating: Setter<boolean>;
@@ -17,7 +16,7 @@ type TeamChannelListProps = {
 
 const TeamChannelList = ({
   children,
-  error = false,
+  error = null,
   loading,
   type,
   setIsCreating,

@@ -202,12 +202,14 @@ body {
   box-shadow: rgba(0, 0, 0, 0.33) 0px 1px 4px 0px;
 }
 
-.str-chat-channel-list {
+.str-chat-channel-list,
+.str-chat__channel-list {
   height: fit-content;
   margin-bottom: 8px;
 }
 
-.str-chat-channel {
+.str-chat-channel,
+.str-chat__channel {
   height: 100%;
 }
 
@@ -229,7 +231,8 @@ body {
 }
 
 @media screen and (max-width: 960px) {
-  .str-chat-channel-list.team.light {
+  .str-chat-channel-list.team.light,
+  .str-chat__channel-list {
     position: unset;
     left: unset;
     top: unset;
@@ -305,7 +308,8 @@ body {
   z-index: 1;
 }
 
-.str-chat__thread-list .str-chat__message-team {
+.str-chat__thread-list .str-chat__message-team,
+.str-chat__thread-list .str-chat__message {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -1046,7 +1050,8 @@ body {
   text-overflow: ellipsis;
 }
 
-.str-chat__message-team:hover {
+.str-chat__message-team:hover,
+.str-chat__message:hover {
   background: #e9e9ea;
 }
 
@@ -1056,7 +1061,8 @@ body {
   justify-content: center;
 }
 
-.str-chat__message-team-content p {
+.str-chat__message-team-content p,
+.str-chat__message-text p {
   font-family: Helvetica Neue, sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -1736,7 +1742,8 @@ div.rta__autocomplete.str-chat__emojisearch {
   transition: 0.8s ease;
 }
 
-.str-chat__input-flat {
+.str-chat__input-flat,
+.str-chat__message-composer {
   width: 100%;
   padding: 10px;
 }
@@ -1829,4 +1836,24 @@ div.rta__autocomplete.str-chat__emojisearch {
   .channel-list__sidebar {
     display: none;
   }
+}
+
+/* Stream Chat React v14 composer and message layout */
+.str-chat__message-composer textarea {
+  font-family: Helvetica Neue, sans-serif;
+  font-size: 15px;
+}
+
+.str-chat__message-replies-count-button {
+  color: var(--primary-color);
+}
+
+.str-chat__message-metadata {
+  font-family: Helvetica Neue, sans-serif;
+  font-size: 10px;
+  color: #858688;
+}
+
+.str-chat__message-list {
+  padding-top: 0;
 }

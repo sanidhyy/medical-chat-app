@@ -3,3 +3,5 @@ allowBuilds:
   core-js-pure: true
   esbuild: true
   sharp: false
+  stream-chat: true
+  stream-chat-react: true

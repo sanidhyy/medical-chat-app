@@ -1,4 +1,4 @@
-import { Channel } from "stream-chat-react";
+import { Channel, WithComponents } from "stream-chat-react";
 
 import { ChannelInner, CreateChannel, EditChannel } from "./";
 import type { ChannelKind, Setter } from "../types";
@@ -47,9 +47,11 @@ const ChannelContainer = ({
 
   return (
     <div className="channel__container">
-      <Channel EmptyStateIndicator={EmptyState}>
-        <ChannelInner setIsEditing={setIsEditing} />
-      </Channel>
+      <WithComponents overrides={{ EmptyStateIndicator: EmptyState }}>
+        <Channel>
+          <ChannelInner setIsEditing={setIsEditing} />
+        </Channel>
+      </WithComponents>
     </div>
   );
 };

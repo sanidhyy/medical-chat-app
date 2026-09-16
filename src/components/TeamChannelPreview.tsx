@@ -1,15 +1,13 @@
-import type { Channel } from "stream-chat";
+import type { ChannelListItemUIProps } from "stream-chat-react";
 import { Avatar, useChatContext } from "stream-chat-react";
 
 import type { ChannelKind, Setter } from "../types";
 
-type TeamChannelPreviewProps = {
-  channel: Channel;
+type TeamChannelPreviewProps = ChannelListItemUIProps & {
   type: ChannelKind;
   setToggleContainer?: Setter<boolean>;
   setIsCreating: Setter<boolean>;
   setIsEditing: Setter<boolean>;
-  setActiveChannel?: (channel?: Channel) => void;
 };
 
 const TeamChannelPreview = ({
@@ -19,11 +17,13 @@ const TeamChannelPreview = ({
   setIsCreating,
   setIsEditing,
   setActiveChannel,
+  onSelect,
 }: TeamChannelPreviewProps) => {
   const { channel: activeChannel, client } = useChatContext();
   const members = Object.values(channel.state.members).filter(
     ({ user }) => user?.id !== client.userID,
   );
+  const member = members[0]?.user;
 
   return (
     <div
@@ -32,10 +32,14 @@ const TeamChannelPreview = ({
           ? "channel-preview__wrapper__selected"
           : "channel-preview__wrapper"
       }
-      onClick={() => {
+      onClick={(event) => {
         setIsCreating(false);
         setIsEditing(false);
-        setActiveChannel?.(channel);
+        if (onSelect) {
+          onSelect(event);
+        } else {
+          setActiveChannel?.(channel);
+        }
 
         if (setToggleContainer) {
           setToggleContainer((prevState) => !prevState);
@@ -44,26 +48,18 @@ const TeamChannelPreview = ({
     >
       {type === "team" ? (
         <p className="channel-preview__item">
-          # {(channel.data?.name as string | undefined) || channel.id}
+          # {channel.data?.name || channel.id}
         </p>
       ) : (
         <div className="channel-preview__item single">
           <Avatar
-            image={
-              typeof members[0]?.user?.image === "string"
-                ? members[0].user.image
-                : undefined
+            imageUrl={
+              typeof member?.image === "string" ? member.image : undefined
             }
-            name={
-              (members[0]?.user?.fullName as string | undefined) ||
-              members[0]?.user?.id
-            }
-            size={24}
+            userName={member?.fullName || member?.id}
+            size="sm"
           />
-          <p>
-            {(members[0]?.user?.fullName as string | undefined) ||
-              members[0]?.user?.id}
-          </p>
+          <p>{member?.fullName || member?.id}</p>
         </div>
       )}
     </div>

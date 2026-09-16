@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Channel } from "stream-chat";
-import { ChannelList, useChatContext } from "stream-chat-react";
+import { ChannelList, useChatContext, WithComponents } from "stream-chat-react";
 import Cookies from "universal-cookie";
 
 import { ChannelSearch, TeamChannelList, TeamChannelPreview } from "./";
@@ -79,55 +79,65 @@ const ChannelListContent = ({
         <CompanyHeader />
         <ChannelSearch setToggleContainer={setToggleContainer} />
 
-        <ChannelList
-          filters={filters}
-          channelRenderFilterFn={customChannelTeamFilter}
-          List={(listProps) => (
-            <TeamChannelList
-              {...listProps}
-              type="team"
-              isCreating={isCreating}
-              setIsCreating={setIsCreating}
-              setCreateType={setCreateType}
-              setIsEditing={setIsEditing}
-              setToggleContainer={setToggleContainer}
-            />
-          )}
-          Preview={(previewProps) => (
-            <TeamChannelPreview
-              {...previewProps}
-              setIsCreating={setIsCreating}
-              setIsEditing={setIsEditing}
-              setToggleContainer={setToggleContainer}
-              type="team"
-            />
-          )}
-        />
+        <WithComponents
+          overrides={{
+            ChannelListUI: (listProps) => (
+              <TeamChannelList
+                {...listProps}
+                type="team"
+                isCreating={isCreating}
+                setIsCreating={setIsCreating}
+                setCreateType={setCreateType}
+                setIsEditing={setIsEditing}
+                setToggleContainer={setToggleContainer}
+              />
+            ),
+            ChannelListItemUI: (previewProps) => (
+              <TeamChannelPreview
+                {...previewProps}
+                setIsCreating={setIsCreating}
+                setIsEditing={setIsEditing}
+                setToggleContainer={setToggleContainer}
+                type="team"
+              />
+            ),
+          }}
+        >
+          <ChannelList
+            filters={filters}
+            channelRenderFilterFn={customChannelTeamFilter}
+          />
+        </WithComponents>
 
-        <ChannelList
-          filters={filters}
-          channelRenderFilterFn={customChannelMessagingFilter}
-          List={(listProps) => (
-            <TeamChannelList
-              {...listProps}
-              type="messaging"
-              isCreating={isCreating}
-              setIsCreating={setIsCreating}
-              setCreateType={setCreateType}
-              setIsEditing={setIsEditing}
-              setToggleContainer={setToggleContainer}
-            />
-          )}
-          Preview={(previewProps) => (
-            <TeamChannelPreview
-              {...previewProps}
-              setIsCreating={setIsCreating}
-              setIsEditing={setIsEditing}
-              setToggleContainer={setToggleContainer}
-              type="messaging"
-            />
-          )}
-        />
+        <WithComponents
+          overrides={{
+            ChannelListUI: (listProps) => (
+              <TeamChannelList
+                {...listProps}
+                type="messaging"
+                isCreating={isCreating}
+                setIsCreating={setIsCreating}
+                setCreateType={setCreateType}
+                setIsEditing={setIsEditing}
+                setToggleContainer={setToggleContainer}
+              />
+            ),
+            ChannelListItemUI: (previewProps) => (
+              <TeamChannelPreview
+                {...previewProps}
+                setIsCreating={setIsCreating}
+                setIsEditing={setIsEditing}
+                setToggleContainer={setToggleContainer}
+                type="messaging"
+              />
+            ),
+          }}
+        >
+          <ChannelList
+            filters={filters}
+            channelRenderFilterFn={customChannelMessagingFilter}
+          />
+        </WithComponents>
       </div>
     </>
   );
