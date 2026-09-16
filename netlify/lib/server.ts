@@ -5,7 +5,7 @@ export function json(data: unknown, status = 200) {
 }
 
 export function getStreamServerClient() {
-  const apiKey = process.env.STREAM_API_KEY;
+  const apiKey = process.env.VITE_STREAM_API_KEY;
   const apiSecret = process.env.STREAM_API_SECRET;
 
   if (!apiKey || !apiSecret) {

@@ -13,9 +13,9 @@
 1. Make sure **Git** and **NodeJS** is installed
 2. Use [pnpm](https://pnpm.io/installation) as the package manager.
 3. Create a `.env` file in the repo root.
-4. Server-only secrets (used by Netlify Functions):
+4. Root `.env` variables:
 ```
-STREAM_API_KEY=xxxxxxxxxx
+VITE_STREAM_API_KEY=xxxxxxxxxx
 STREAM_API_SECRET=xxxxxxxxxxxxxxxxxxxxx
 STREAM_APP_ID=xxxxx
 
@@ -23,26 +23,22 @@ TWILIO_ACCOUNT_SID=xxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxx
 TWILIO_MESSAGING_SERVICE_SID=xxxxxxxxxxxxxxxxx
 ```
-5. Public Stream key (Vite client only):
-```
-VITE_STREAM_API_KEY=xxxxxxxxxx
-```
 
-6. Create an account in [Stream](https://getstream.io/)
-7. Create a new app. You can name it whatever you want.
-8. On app dashboard, you can copy your keys and paste it like shown below. Never share them with anyone else.
+5. Create an account in [Stream](https://getstream.io/)
+6. Create a new app. You can name it whatever you want.
+7. On app dashboard, you can copy your keys and paste it like shown below. Never share them with anyone else.
 
 ![Copy these keys](https://user-images.githubusercontent.com/71302066/171994842-0a821356-0294-4a33-bac3-29b694eec10e.png)
 
-*NOTE:* `STREAM_API_KEY` and `VITE_STREAM_API_KEY` are the same **public** Stream API key. Never put `STREAM_API_SECRET` or Twilio credentials in a `VITE_` variable — Vite embeds those into the browser bundle.
+*NOTE:* `VITE_STREAM_API_KEY` is Stream’s **public** API key. The Vite client and Netlify Functions both read it. Never prefix `STREAM_API_SECRET` or Twilio credentials with `VITE_` — Vite embeds those into the browser bundle.
 
-9. To use messaging functionality, Create an account in [Twilio](https://www.twilio.com/try-twilio)
-10. On app dashboard, copy keys which are shown below and paste them in the root `.env` file.
+8. To use messaging functionality, Create an account in [Twilio](https://www.twilio.com/try-twilio)
+9. On app dashboard, copy keys which are shown below and paste them in the root `.env` file.
 ![Copy these keys as well](https://user-images.githubusercontent.com/71302066/171995174-e6f39d41-fa6c-441c-ab1a-e50515d07f36.png)
-11. To get Messaging service sid, go to _Messaging/Services_ through dashboard sidebar.
-12. Create a messaging service in case it doesn't exists
+10. To get Messaging service sid, go to _Messaging/Services_ through dashboard sidebar.
+11. Create a messaging service in case it doesn't exists
 ![Create messaging service](https://user-images.githubusercontent.com/71302066/171995515-75ed7fb2-c995-4222-81e7-2d2d4e4428fb.png)
-13. Then, click on messaging service you created and you will be able to see its properties as shown below. Copy **Messaging Service SID**
+12. Then, click on messaging service you created and you will be able to see its properties as shown below. Copy **Messaging Service SID**
 ![Copy messaging service SID](https://user-images.githubusercontent.com/71302066/171995661-6897f4f6-d101-4057-a670-a3abfd169806.png)
 
 
