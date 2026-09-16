@@ -26,6 +26,7 @@ const ChannelNameInput = ({
         value={channelName}
         onChange={handleChange}
         placeholder="Channel Name (no spaces)"
+        size={32}
       />
       <p>Add Members</p>
     </div>
@@ -65,7 +66,7 @@ const EditChannel = ({ setIsEditing }: EditChannelProps) => {
   };
 
   return (
-    <div className="edit-channel__container">
+    <div className="edit-channel__container str-chat">
       <div className="edit-channel__header">
         <p>Edit Channel</p>
         <CloseCreateChannel setIsEditing={setIsEditing} />

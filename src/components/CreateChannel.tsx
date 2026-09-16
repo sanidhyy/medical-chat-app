@@ -26,6 +26,7 @@ const ChannelNameInput = ({
         value={channelName}
         onChange={handleChange}
         placeholder="Channel Name (no spaces)"
+        size={32}
       />
       <p>Add Members</p>
     </div>
@@ -65,7 +66,7 @@ const CreateChannel = ({ createType, setIsCreating }: CreateChannelProps) => {
   };
 
   return (
-    <div className="create-channel__container">
+    <div className="create-channel__container str-chat">
       <div className="create-channel__header">
         <p>
           {createType === "team"
@@ -74,11 +75,13 @@ const CreateChannel = ({ createType, setIsCreating }: CreateChannelProps) => {
         </p>
         <CloseCreateChannel setIsCreating={setIsCreating} />
       </div>
-      {createType === "team" && (
+      {createType === "team" ? (
         <ChannelNameInput
           channelName={channelName}
           setChannelName={setChannelName}
         />
+      ) : (
+        <p className="create-channel__members-label">Add Members</p>
       )}
       <UserList setSelectedUsers={setSelectedUsers} />
       <div className="create-channel__button-wrapper" onClick={createChannel}>

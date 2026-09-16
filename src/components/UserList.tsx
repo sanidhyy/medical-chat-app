@@ -12,7 +12,7 @@ const ListContainer = ({ children }: { children: ReactNode }) => {
         <p>User</p>
         <p>Invite</p>
       </div>
-      {children}
+      <div className="user-list__body">{children}</div>
     </div>
   );
 };
@@ -41,10 +41,12 @@ const UserItem = ({ user, setSelectedUsers }: UserItemProps) => {
       <div className="user-item__name-wrapper">
         <Avatar
           imageUrl={typeof user.image === "string" ? user.image : undefined}
-          userName={user.fullName || user.id}
-          size="md"
+          userName={typeof user.fullName === "string" ? user.fullName : user.id}
+          size="sm"
         />
-        <p className="user-item__name">{user.fullName || user.id}</p>
+        <p className="user-item__name">
+          {typeof user.fullName === "string" ? user.fullName : user.id}
+        </p>
       </div>
       {selected ? <InviteIcon /> : <div className="user-item__invite-empty" />}
     </div>
