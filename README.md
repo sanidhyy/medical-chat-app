@@ -6,7 +6,8 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/sanidhyy/medical-chat-app/commits/main)
 [![GitHub license](https://img.shields.io/github/license/sanidhyy/medical-chat-app)](https://github.com/sanidhyy/medical-chat-app/blob/main/LICENSE.md)
 [![GitHub branches](https://badgen.net/github/branches/sanidhyy/medical-chat-app/)](https://github.com/sanidhyy/medical-chat-app/branches)
-[![GitHub commits](https://badgen.net/github/commits/sanidhyy/medical-chat-app/main)](https://github.com/sanidhyy/medical-chat-app/commits/)
+[![GitHub commits](https://badgen.net/github/commits/sanidhyy/medical-chat-app/main)](https://github.com/sanidhyy/medical-chat-app/commits)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5c942408-84b1-4126-8e22-8c913e88acaa/deploy-status)](https://chat-medical.netlify.app)
 [![GitHub issues](https://img.shields.io/github/issues/sanidhyy/medical-chat-app)](https://github.com/sanidhyy/medical-chat-app/issues)
 
 ## 📌 Before you start
