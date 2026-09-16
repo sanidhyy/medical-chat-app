@@ -5,11 +5,14 @@
   "type": "module",
   "packageManager": "pnpm@12.3.4",
   "dependencies": {
+    "@netlify/functions": "^6.0.0",
     "axios": "^1.18.0",
+    "bcryptjs": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "stream-chat": "^8.14.5",
     "stream-chat-react": "^11.4.0",
+    "twilio": "^6.1.1",
     "universal-cookie": "^7.0.2"
   },
   "scripts": {
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@netlify/vite-plugin": "^3.0.1",
     "@types/node": "^22.20.2",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",

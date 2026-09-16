@@ -46,7 +46,7 @@ const Auth = () => {
     const { username, password, confirmPassword, phoneNumber, avatarURL } =
       form;
 
-    const URL = "http://localhost:5000/auth";
+    const URL = "/auth";
 
     try {
       const {

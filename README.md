@@ -12,8 +12,8 @@
 ## 📌 Before you start
 1. Make sure **Git** and **NodeJS** is installed
 2. Use [pnpm](https://pnpm.io/installation) as the package manager.
-3. Create `.env` files in the repo root and in the `server` folder.
-4. _server/.env_
+3. Create a `.env` file in the repo root.
+4. Server-only secrets (used by Netlify Functions):
 ```
 STREAM_API_KEY=xxxxxxxxxx
 STREAM_API_SECRET=xxxxxxxxxxxxxxxxxxxxx
@@ -23,9 +23,9 @@ TWILIO_ACCOUNT_SID=xxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxx
 TWILIO_MESSAGING_SERVICE_SID=xxxxxxxxxxxxxxxxx
 ```
-5. _root `.env`_
+5. Public Stream key (Vite client):
 ```
-REACT_APP_STREAM_API_KEY_SECRET=xxxxxxxxxx
+VITE_STREAM_API_KEY_SECRET=xxxxxxxxxx
 ```
 
 6. Create an account in [Stream](https://getstream.io/)
@@ -34,10 +34,10 @@ REACT_APP_STREAM_API_KEY_SECRET=xxxxxxxxxx
 
 ![Copy these keys](https://user-images.githubusercontent.com/71302066/171994842-0a821356-0294-4a33-bac3-29b694eec10e.png)
 
-*NOTE:* Both `STREAM_API_KEY` and `REACT_APP_STREAM_API_KEY_SECRET` are same
+*NOTE:* Both `STREAM_API_KEY` and `VITE_STREAM_API_KEY_SECRET` are the public Stream API key. Never put `STREAM_API_SECRET` or Twilio credentials in a `VITE_` variable.
 
 9. To use messaging functionality, Create an account in [Twilio](https://www.twilio.com/try-twilio)
-10. On app dashboard, copy keys which are shown below and paste them in .env file in server folder.
+10. On app dashboard, copy keys which are shown below and paste them in the root `.env` file.
 ![Copy these keys as well](https://user-images.githubusercontent.com/71302066/171995174-e6f39d41-fa6c-441c-ab1a-e50515d07f36.png)
 11. To get Messaging service sid, go to _Messaging/Services_ through dashboard sidebar.
 12. Create a messaging service in case it doesn't exists
@@ -50,15 +50,10 @@ Make sure you don't share them publicly.
 
 ## 📌 How to use this App?
 1. Clone this **repository** to your local computer.
-2. Open **terminal** in root directory and `cd server`
-3. Type and Run `pnpm install`
-4. Run `pnpm start` to start the back end server
-5. Now, in browser go to this URL [http://localhost:5000/](http://localhost:5000/)
-![You should see this in browser](https://user-images.githubusercontent.com/71302066/171993385-5cf8e702-dfb9-4986-ac2e-11980a8632c5.png)
-6. Now, nodejs server is **configured** and started. Next, we need to setup the frontend.
-7. Open a new **Terminal** in the repo root and run `pnpm install`
-8. Once packages are installed, type and run `pnpm dev`
-9. Now the client will be started and you can start using this app.
+2. Open a terminal in the repo root and run `pnpm install`.
+3. Copy the environment variables into a root `.env` file.
+4. Run `pnpm dev`. Auth and SMS webhook functions are served by Netlify Functions through Vite (`/auth/signup`, `/auth/login`, `/api/webhooks/stream`).
+5. Point the Stream webhook URL to `/api/webhooks/stream` on your Netlify site (not the old Express `/` route).
 
 ![Authentication Page](https://user-images.githubusercontent.com/71302066/171993613-4ea393c9-654a-4170-aede-8833206c22d5.png)
 
