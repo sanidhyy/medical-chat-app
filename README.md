@@ -57,7 +57,7 @@ Make sure you don't share them publicly.
 ![You should see this in browser](https://user-images.githubusercontent.com/71302066/171993385-5cf8e702-dfb9-4986-ac2e-11980a8632c5.png)
 6. Now, nodejs server is **configured** and started. Next, we need to setup the frontend.
 7. Open a new **Terminal** in the repo root and run `pnpm install`
-8. Once packages are installed, type and run `pnpm start`
+8. Once packages are installed, type and run `pnpm dev`
 9. Now the client will be started and you can start using this app.
 
 ![Authentication Page](https://user-images.githubusercontent.com/71302066/171993613-4ea393c9-654a-4170-aede-8833206c22d5.png)

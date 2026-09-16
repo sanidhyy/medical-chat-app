@@ -11,32 +11,9 @@ const TeamChannelPreview = ({
   setActiveChannel,
 }) => {
   const { channel: activeChannel, client } = useChatContext();
-
-  // Channel Name
-  const ChannelPreview = () => (
-    <p className="channel-preview__item">
-      # {channel?.data?.name || channel?.data?.id}
-    </p>
+  const members = Object.values(channel.state.members).filter(
+    ({ user }) => user.id !== client.userID
   );
-
-  // Direct Messaging username
-  const DirectPreview = () => {
-    const members = Object.values(channel.state.members).filter(
-      ({ user }) => user.id !== client.userID
-    );
-
-    // Render users
-    return (
-      <div className="channel-preview__item single">
-        <Avatar
-          image={members[0]?.user?.image}
-          name={members[0]?.user?.fullName || members[0]?.user?.id}
-          size={24}
-        />
-        <p>{members[0]?.user?.fullName || members[0]?.user?.id}</p>
-      </div>
-    );
-  };
 
   // Render channels
   return (
@@ -56,7 +33,20 @@ const TeamChannelPreview = ({
         }
       }}
     >
-      {type === "team" ? <ChannelPreview /> : <DirectPreview />}
+      {type === "team" ? (
+        <p className="channel-preview__item">
+          # {channel?.data?.name || channel?.data?.id}
+        </p>
+      ) : (
+        <div className="channel-preview__item single">
+          <Avatar
+            image={members[0]?.user?.image}
+            name={members[0]?.user?.fullName || members[0]?.user?.id}
+            size={24}
+          />
+          <p>{members[0]?.user?.fullName || members[0]?.user?.id}</p>
+        </div>
+      )}
     </div>
   );
 };

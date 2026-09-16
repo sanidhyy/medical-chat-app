@@ -54,9 +54,9 @@ const UserList = ({ setSelectedUsers }) => {
 
   // get each users
   useEffect(() => {
-    const getUsers = async () => {
-      if (loading) return;
+    let cancelled = false;
 
+    const getUsers = async () => {
       setLoading(true);
 
       try {
@@ -72,20 +72,26 @@ const UserList = ({ setSelectedUsers }) => {
           }
         );
 
+        if (cancelled) return;
+
         if (response.users.length) {
           setUsers(response.users);
         } else {
           setListEmpty(true);
         }
-      } catch (error) {
-        setError(true);
+      } catch {
+        if (!cancelled) setError(true);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-
-      setLoading(false);
     };
 
     if (client) getUsers();
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [client]);
 
   // Error handling
   if (error) {

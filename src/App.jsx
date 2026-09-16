@@ -12,7 +12,7 @@ import "stream-chat-react/dist/css/index.css";
 const cookies = new Cookies();
 
 // Get API KEY from .env file
-const API_KEY = process.env.REACT_APP_STREAM_API_KEY_SECRET;
+const API_KEY = import.meta.env.VITE_STREAM_API_KEY_SECRET;
 const authToken = cookies.get("token");
 
 // Create a client instance

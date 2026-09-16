@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useChatContext } from "stream-chat-react";
 
 import ResultsDropdown from "./ResultsDropdown";
@@ -11,14 +11,6 @@ const ChannelSearch = ({ setToggleContainer }) => {
   const [loading, setLoading] = useState(false);
   const [teamChannels, setTeamChannels] = useState([]);
   const [directChannels, setDirectChannels] = useState([]);
-
-  // search whenever query is changed
-  useEffect(() => {
-    if (!query) {
-      setTeamChannels([]);
-      setDirectChannels([]);
-    }
-  }, [query]);
 
   // Get Channels
   const getChannels = async (text) => {
@@ -50,10 +42,19 @@ const ChannelSearch = ({ setToggleContainer }) => {
   // On Search event
   const onSearch = (e) => {
     e.preventDefault();
+    const value = e.target.value;
+
+    setQuery(value);
+
+    if (!value) {
+      setTeamChannels([]);
+      setDirectChannels([]);
+      setLoading(false);
+      return;
+    }
 
     setLoading(true);
-    setQuery(e.target.value);
-    getChannels(e.target.value);
+    getChannels(value);
   };
 
   const setChannel = (channel) => {
