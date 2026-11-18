@@ -6,7 +6,7 @@
   "packageManager": "pnpm@12.3.4",
   "dependencies": {
     "@netlify/functions": "^6.0.0",
-    "axios": "^1.20.0",
+    "axios": "^1.21.1",
     "bcryptjs": "^3.0.3",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
